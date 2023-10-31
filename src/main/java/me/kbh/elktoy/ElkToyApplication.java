@@ -9,5 +9,4 @@ public class ElkToyApplication {
   public static void main(String[] args) {
     SpringApplication.run(ElkToyApplication.class, args);
   }
-
 }
