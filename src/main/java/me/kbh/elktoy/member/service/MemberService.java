@@ -23,11 +23,14 @@ public class MemberService {
   MemberRepository memberRepository;
 
   public void createUserByFakerLimit100() {
+
     Faker faker = new Faker(new Locale("ko"));
 
+    long startId = memberRepository.count() + 1;
+
     List<Member> memberList =
-        Stream.iterate(1, i -> i + 1)
-            .limit(100)
+        Stream.iterate(startId, i -> i + 1)
+            .limit(1000)
             .map(
                 i ->
                     Member.builder()
