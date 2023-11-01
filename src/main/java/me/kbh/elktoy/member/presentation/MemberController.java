@@ -20,7 +20,6 @@ public class MemberController {
   @PostMapping("/100-user")
   public ResponseEntity<Void> byFakerLimit() {
     memberService.createUserByFakerLimit100();
-
     return ResponseEntity.noContent().build();
   }
   @GetMapping("all")
