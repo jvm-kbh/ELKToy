@@ -1,32 +1,58 @@
-version: '3.7'  # Docker Compose 파일 버전을 지정합니다.
+version: '3.7'                                                                                      # Docker Compose 파일 버전을 지정합니다.
 
 services:
+
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2  # Elasticsearch 컨테이너 이미지 및 버전을 지정합니다.
-    container_name: elasticsearch  # 컨테이너의 이름을 설정합니다.
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2                                     # Elasticsearch 컨테이너 이미지 및 버전을 지정합니다.
+    container_name: elasticsearch                                                                   # 컨테이너의 이름을 설정합니다.
     networks:
       - elk-network
     environment:
       - cluster.name=es-cluster
-      - discovery.type=single-node  # Elasticsearch를 단일 노드 모드로 설정합니다.
-      - xpack.security.enabled=false  # xpack.security.enabled를 false로 설정, 8버전에선 기본으로 보안 활성화 되어있다.
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" #공백이 존재하면 큰따옴표로 묶자
+      - discovery.type=single-node                                                                  # Elasticsearch를 단일 노드 모드로 설정합니다.
+      - xpack.security.enabled=false                                                                # xpack.security.enabled를 false로 설정, 8버전에선 기본으로 보안 활성화 되어있다.
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"                                                            # 공백이 존재하면 큰따옴표로 묶자
     ports:
-      - 9200:9200  # 호스트의 9200 포트와 컨테이너의 9200 포트를 연결합니다.
+      - 9200:9200                                                                                   # 호스트의 9200 포트와 컨테이너의 9200 포트를 연결합니다.
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data                                            #
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.10.2                                               # Logstash 컨테이너 이미지 및 버전을 지정합니다.
+    container_name: logstash                                                                        # 컨테이너의 이름을 설정합니다.
+    networks:
+      - elk-network
+    volumes:
+#      - type: bind
+#        source: ./csv
+#        target: /usr/share/logstash/data
+#        read_only: true
+      - type: bind
+        source: ./logstash/pipeline/logstash.conf
+        target: /usr/share/logstash/pipeline/logstash.conf
+        read_only: true
+    ports:
+      - 5044:5044                                                                                   # 호스트의 5044 포트와 컨테이너의 5044 포트를 연결합니다.
+    depends_on:
+      - elasticsearch                                                                               # Elasticsearch 컨테이너가 실행 중일 때만 시작
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.10.2  # Kibana 컨테이너 이미지 및 버전을 지정합니다.
-    container_name: kibana  # 컨테이너의 이름을 설정합니다.
+    image: docker.elastic.co/kibana/kibana:8.10.2                                                   # Kibana 컨테이너 이미지 및 버전을 지정합니다.
+    container_name: kibana                                                                          # 컨테이너의 이름을 설정합니다.
     networks:
       - elk-network
     ports:
-      - 5601:5601  # 호스트의 5601 포트와 컨테이너의 5601 포트를 연결합니다.
+      - 5601:5601                                                                                   # 호스트의 5601 포트와 컨테이너의 5601 포트를 연결합니다.
     depends_on:
-      - elasticsearch  # Elasticsearch 컨테이너가 실행 중일 때만 시작
+      - elasticsearch                                                                               # Elasticsearch 컨테이너가 실행 중일 때만 시작
     environment:
       - server.name=kibana
       - server.host="0"
       - elasticsearch.hosts=elasticsearch:9200
+
 networks:
   elk-network:
-    driver: bridge  # 기본 네트워크 드라이버를 사용합니다.
+    driver: bridge                                                                                  # 기본 네트워크 드라이버를 사용합니다.
+
+volumes:
+  elasticsearch_data:
