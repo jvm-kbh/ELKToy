@@ -8,6 +8,7 @@ gradlew.bat
 !**/src/test/**/build/
 gradle
 *.csv
+!csv/small/test.csv
 
 ### IntelliJ IDEA ###
 .idea
