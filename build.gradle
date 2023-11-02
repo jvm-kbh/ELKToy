@@ -41,7 +41,11 @@ dependencies {
     //spring data elasticsearch
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
+    //csv
     implementation 'org.apache.commons:commons-csv:1.8'
+
+    //spring-doc
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 }
 
 tasks.named('test') {
