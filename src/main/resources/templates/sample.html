@@ -1,6 +1,9 @@
-<html xmlns:th="http://www.thymeleaf.org"><head>
+<html>
+<head>
   <title>이쁜 검색 UI</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+  <meta charset="UTF-8">
   <style>
     body {
       background-color: #f5f5f5;
@@ -9,6 +12,7 @@
       justify-content: center;
       height: 100vh;
     }
+
     .container {
       background-color: #fff;
       border-radius: 5px;
@@ -16,18 +20,26 @@
       padding: 20px;
       width: 600px; /* 컨테이너의 폭을 조정 */
     }
+
+    .h1-wrapper {
+      text-align: center;
+    }
+
     h1 {
       color: #333;
     }
+
     .form-group {
       margin-bottom: 20px;
     }
+
     #searchInput {
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
       width: 70%;
     }
+
     #searchButton {
       background-color: #007bff;
       color: #fff;
@@ -37,9 +49,11 @@
       cursor: pointer;
       width: 30%;
     }
+
     #searchButton:hover {
       background-color: #0056b3;
     }
+
     #searchResults {
       background-color: #f8f9fa;
       padding: 20px;
@@ -50,7 +64,9 @@
 </head>
 <body>
 <div class="container">
-  <h1>ㅇㄹㅇㄹ</h1>
+  <div class="h1-wrapper">
+    <h1>ㅇㄹㅇㄹ</h1>
+  </div>
   <form>
     <div class="form-group d-flex">
       <input id="searchInput" class="form-control" type="text" placeholder="검색어 입력">
@@ -77,4 +93,5 @@
 </script>
 
 
-</body></html>
+</body>
+</html>

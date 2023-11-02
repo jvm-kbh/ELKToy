@@ -19,8 +19,7 @@ public class JpaConfig {
     return () -> Optional.of(UUID.randomUUID().toString());
   }
 
-  @PersistenceContext
-  private EntityManager entityManager;
+  @PersistenceContext private EntityManager entityManager;
 
   @Bean
   public JPAQueryFactory jpaQueryFactory() {

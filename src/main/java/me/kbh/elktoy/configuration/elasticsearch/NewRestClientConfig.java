@@ -9,10 +9,10 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableElasticsearchRepositories(basePackages = "me.kbh.elktoy.member.repository")
 public class NewRestClientConfig extends ElasticsearchConfiguration {
 
-	@Override
-	public ClientConfiguration clientConfiguration() {
-		return ClientConfiguration.builder() //
-			.connectedTo("localhost:9200") //
-			.build();
-	}
+  @Override
+  public ClientConfiguration clientConfiguration() {
+    return ClientConfiguration.builder() //
+        .connectedTo("localhost:9200")
+        .build();
+  }
 }

@@ -11,7 +11,7 @@ services:
       - cluster.name=es-cluster
       - discovery.type=single-node                                                                  # Elasticsearch를 단일 노드 모드로 설정합니다.
       - xpack.security.enabled=false                                                                # xpack.security.enabled를 false로 설정, 8버전에선 기본으로 보안 활성화 되어있다.
-      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"                                                                # 공백이 존재하면 큰따옴표로 묶자
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"                                                                # 공백이 존재하면 큰따옴표로 묶자
     ports:
       - 9200:9200                                                                                   # 호스트의 9200 포트와 컨테이너의 9200 포트를 연결합니다.
     volumes:

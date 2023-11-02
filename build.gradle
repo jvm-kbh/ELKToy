@@ -40,6 +40,8 @@ dependencies {
 
     //spring data elasticsearch
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
+    implementation 'org.apache.commons:commons-csv:1.8'
 }
 
 tasks.named('test') {
