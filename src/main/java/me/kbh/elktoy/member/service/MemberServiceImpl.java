@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
   public void findAll() {
     List<Member> memberList =
         StreamSupport.stream(memberRepository.findAll().spliterator(), false)
-            .collect(Collectors.toList());
+            .toList();
 
     memberList.forEach(member -> log.info(member.toString()));
   }
