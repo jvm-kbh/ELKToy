@@ -1,4 +1,4 @@
-package me.kbh.elktoy.commercial.entity;
+package me.kbh.elktoy.commercial.document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,8 @@ import org.springframework.data.elasticsearch.annotations.Mapping;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommercialProperty {
-  @Id String commercialPropertyId; // 상가업소번호, 이 엔티티의 기본 키
+  @Id
+  String commercialPropertyId; // 상가업소번호, 이 엔티티의 기본 키
   String name; // 상호명
   String branchName; // 지점명
   String majorCategoryCode; // 상권업종대분류코드

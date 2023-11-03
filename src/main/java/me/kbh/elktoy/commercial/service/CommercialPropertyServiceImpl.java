@@ -1,11 +1,19 @@
 package me.kbh.elktoy.commercial.service;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import me.kbh.elktoy.commercial.code.CommercialPropertyFieldCode;
+import me.kbh.elktoy.commercial.document.CommercialProperty;
+import me.kbh.elktoy.commercial.dto.CommercialPropertyDto;
+import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyResponse;
 import me.kbh.elktoy.commercial.repository.CommercialPropertyRepository;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,22 +21,24 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CommercialPropertyServiceImpl implements CommercialPropertyService {
 
-  CommercialPropertyRepository commercialPropertyRepository;
-  ElasticsearchClient elasticsearchClient;
   ElasticsearchOperations operations;
+  CommercialPropertyRepository commercialPropertyRepository;
 
   @Override
-  public void createDummyData() {
-    System.out.println("asdf");
-//    try (Reader reader = new BufferedReader(new FileReader("./csv/small/test.csv"))) {
-//      Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader);
-//      List<CommercialProperty> commercialPropertyList =
-//          StreamSupport.stream(records.spliterator(), false).map(CommercialProperty::new).toList();
-//
-//      commercialPropertyRepository.saveAll(commercialPropertyList);
-//
-//    } catch (IOException e) {
-//      throw new RuntimeException(e);
-//    }
+  public CommercialPropertyResponse findByFieldAndSearchText(
+      CommercialPropertyFieldCode fieldCode, String searchText) {
+
+    Criteria criteria = new Criteria(fieldCode.getName()).is(searchText);
+    Query searchQuery = new CriteriaQuery(criteria);
+
+    List<CommercialPropertyDto> commercialPropertyDtoList =
+        operations.search(searchQuery, CommercialProperty.class).stream()
+            .map(SearchHit::getContent)
+            .map(CommercialPropertyDto::new)
+            .toList();
+
+    return CommercialPropertyResponse.builder()
+        .commercialPropertyDtoList(commercialPropertyDtoList)
+        .build();
   }
 }

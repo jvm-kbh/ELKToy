@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfigurat
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "me.kbh.elktoy.member.repository")
+@EnableElasticsearchRepositories(basePackages = "me.kbh.elktoy.*.repository")
 public class NewRestClientConfig extends ElasticsearchConfiguration {
 
   @Override
