@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import me.kbh.elktoy.commercial.code.CommercialPropertyFieldCode;
-import me.kbh.elktoy.commercial.document.CommercialProperty;
+import me.kbh.elktoy.commercial.model.CommercialProperty;
 import me.kbh.elktoy.commercial.dto.CommercialPropertyDto;
 import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyResponse;
 import me.kbh.elktoy.commercial.repository.CommercialPropertyRepository;

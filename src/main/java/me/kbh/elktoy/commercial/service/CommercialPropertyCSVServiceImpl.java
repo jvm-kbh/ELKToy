@@ -9,7 +9,7 @@ import java.util.stream.StreamSupport;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import me.kbh.elktoy.commercial.document.CommercialProperty;
+import me.kbh.elktoy.commercial.model.CommercialProperty;
 import me.kbh.elktoy.commercial.repository.CommercialPropertyRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;

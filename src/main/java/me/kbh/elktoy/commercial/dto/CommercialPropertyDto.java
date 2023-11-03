@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import me.kbh.elktoy.commercial.document.CommercialProperty;
+import me.kbh.elktoy.commercial.model.CommercialProperty;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

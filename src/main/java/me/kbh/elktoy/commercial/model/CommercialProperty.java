@@ -1,4 +1,4 @@
-package me.kbh.elktoy.commercial.document;
+package me.kbh.elktoy.commercial.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
