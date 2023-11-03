@@ -1,7 +1,9 @@
-package me.kbh.elktoy.member.entity;
+package me.kbh.elktoy.commercial.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -10,6 +12,8 @@ import org.springframework.data.elasticsearch.annotations.Mapping;
 @Getter
 @Document(indexName = "commercial_property")
 @Mapping(mappingPath = "elasticsearch/mapping/commercial_property_mapping.json")
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommercialProperty {
   @Id String commercialPropertyId; // 상가업소번호, 이 엔티티의 기본 키
   String name; // 상호명

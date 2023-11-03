@@ -1,6 +1,6 @@
-package me.kbh.elktoy.member.repository;
+package me.kbh.elktoy.commercial.repository;
 
-import me.kbh.elktoy.member.entity.CommercialProperty;
+import me.kbh.elktoy.commercial.entity.CommercialProperty;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 public interface CommercialPropertyRepository

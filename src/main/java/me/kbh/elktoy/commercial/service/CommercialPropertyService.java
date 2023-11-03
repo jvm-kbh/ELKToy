@@ -1,4 +1,4 @@
-package me.kbh.elktoy.member.service;
+package me.kbh.elktoy.commercial.service;
 
 public interface CommercialPropertyService {
 

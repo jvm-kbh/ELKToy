@@ -1,11 +1,11 @@
-package me.kbh.elktoy.member.presentation;
+package me.kbh.elktoy.commercial.presentation;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import me.kbh.elktoy.member.service.CommercialPropertyService;
+import me.kbh.elktoy.commercial.service.CommercialPropertyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
