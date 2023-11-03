@@ -15,8 +15,7 @@ import org.springframework.data.elasticsearch.annotations.Mapping;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommercialProperty {
-  @Id
-  String commercialPropertyId; // 상가업소번호, 이 엔티티의 기본 키
+  @Id String commercialPropertyId; // 상가업소번호, 이 엔티티의 기본 키
   String name; // 상호명
   String branchName; // 지점명
   String majorCategoryCode; // 상권업종대분류코드
@@ -80,13 +79,25 @@ public class CommercialProperty {
     this.parcelCode = csvRecord.get("parcelCode");
     this.landCategoryCode = csvRecord.get("landCategoryCode");
     this.landCategoryName = csvRecord.get("landCategoryName");
-    this.parcelMainNumber = csvRecord.get("parcelMainNumber").isBlank() ? 0 : Integer.parseInt(csvRecord.get("parcelMainNumber"));
-    this.parcelSubNumber = csvRecord.get("parcelSubNumber").isBlank() ? 0 : Integer.parseInt(csvRecord.get("parcelSubNumber"));
+    this.parcelMainNumber =
+        csvRecord.get("parcelMainNumber").isBlank()
+            ? 0
+            : Integer.parseInt(csvRecord.get("parcelMainNumber"));
+    this.parcelSubNumber =
+        csvRecord.get("parcelSubNumber").isBlank()
+            ? 0
+            : Integer.parseInt(csvRecord.get("parcelSubNumber"));
     this.parcelAddress = csvRecord.get("parcelAddress");
     this.roadCode = csvRecord.get("roadCode");
     this.roadName = csvRecord.get("roadName");
-    this.buildingMainNumber = csvRecord.get("buildingMainNumber").isBlank() ? 0 : Integer.parseInt(csvRecord.get("buildingMainNumber"));
-    this.buildingSubNumber = csvRecord.get("buildingSubNumber").isBlank() ? 0 : Integer.parseInt(csvRecord.get("buildingSubNumber"));
+    this.buildingMainNumber =
+        csvRecord.get("buildingMainNumber").isBlank()
+            ? 0
+            : Integer.parseInt(csvRecord.get("buildingMainNumber"));
+    this.buildingSubNumber =
+        csvRecord.get("buildingSubNumber").isBlank()
+            ? 0
+            : Integer.parseInt(csvRecord.get("buildingSubNumber"));
     this.buildingManagementNumber = csvRecord.get("buildingManagementNumber");
     this.buildingName = csvRecord.get("buildingName");
     this.roadAddress = csvRecord.get("roadAddress");
@@ -95,7 +106,9 @@ public class CommercialProperty {
     this.dongInfo = csvRecord.get("dongInfo");
     this.floorInfo = csvRecord.get("floorInfo");
     this.unitInfo = csvRecord.get("unitInfo");
-    this.longitude = csvRecord.get("longitude").isBlank() ? 0D : Double.parseDouble(csvRecord.get("longitude"));
-    this.latitude = csvRecord.get("latitude").isBlank() ? 0D : Double.parseDouble(csvRecord.get("latitude"));
+    this.longitude =
+        csvRecord.get("longitude").isBlank() ? 0D : Double.parseDouble(csvRecord.get("longitude"));
+    this.latitude =
+        csvRecord.get("latitude").isBlank() ? 0D : Double.parseDouble(csvRecord.get("latitude"));
   }
 }
