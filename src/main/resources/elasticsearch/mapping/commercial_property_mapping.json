@@ -1,0 +1,131 @@
+{
+  "properties": {
+    "commercialPropertyId": {
+      "type": "text"
+    },
+    "name": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
+    },
+    "branchName": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
+    },
+    "majorCategoryCode": {
+      "type": "keyword"
+    },
+    "majorCategoryName": {
+      "type": "text"
+    },
+    "middleCategoryCode": {
+      "type": "keyword"
+    },
+    "middleCategoryName": {
+      "type": "text"
+    },
+    "subCategoryCode": {
+      "type": "keyword"
+    },
+    "subCategoryName": {
+      "type": "text"
+    },
+    "industryCode": {
+      "type": "keyword"
+    },
+    "industryName": {
+      "type": "text"
+    },
+    "cityCode": {
+      "type": "keyword"
+    },
+    "cityName": {
+      "type": "text"
+    },
+    "districtCode": {
+      "type": "keyword"
+    },
+    "districtName": {
+      "type": "text"
+    },
+    "administrativeDistrictCode": {
+      "type": "keyword"
+    },
+    "administrativeDistrictName": {
+      "type": "text"
+    },
+    "legalDistrictCode": {
+      "type": "keyword"
+    },
+    "legalDistrictName": {
+      "type": "text"
+    },
+    "parcelCode": {
+      "type": "keyword"
+    },
+    "landCategoryCode": {
+      "type": "keyword"
+    },
+    "landCategoryName": {
+      "type": "text"
+    },
+    "parcelMainNumber": {
+      "type": "integer"
+    },
+    "parcelSubNumber": {
+      "type": "integer"
+    },
+    "parcelAddress": {
+      "type": "text"
+    },
+    "roadCode": {
+      "type": "keyword"
+    },
+    "roadName": {
+      "type": "text"
+    },
+    "buildingMainNumber": {
+      "type": "integer"
+    },
+    "buildingSubNumber": {
+      "type": "integer"
+    },
+    "buildingManagementNumber": {
+      "type": "keyword"
+    },
+    "buildingName": {
+      "type": "text"
+    },
+    "roadAddress": {
+      "type": "text"
+    },
+    "oldZipCode": {
+      "type": "keyword"
+    },
+    "newZipCode": {
+      "type": "keyword"
+    },
+    "dongInfo": {
+      "type": "text"
+    },
+    "floorInfo": {
+      "type": "text"
+    },
+    "unitInfo": {
+      "type": "text"
+    },
+    "longitude": {
+      "type": "double"
+    },
+    "latitude": {
+      "type": "double"
+    }
+  }
+}

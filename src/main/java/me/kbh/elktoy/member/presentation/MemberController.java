@@ -17,14 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
   MemberService memberService;
+
   @PostMapping("/100-user")
   public ResponseEntity<Void> byFakerLimit() {
     memberService.createUserByFakerLimit100();
-
     return ResponseEntity.noContent().build();
   }
+
   @GetMapping("all")
-  public ResponseEntity<Void> findAll(){
+  public ResponseEntity<Void> findAll() {
     memberService.findAll();
     return ResponseEntity.noContent().build();
   }

@@ -1,0 +1,139 @@
+<html>
+<head>
+  <title>이쁜 검색 UI</title>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <style>
+    body {
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 600px; /* 컨테이너의 폭을 조정 */
+    }
+
+    .h1-wrapper {
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    #searchInput {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 70%;
+    }
+
+    #searchButton {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+      width: 30%;
+    }
+
+    #searchButton:hover {
+      background-color: #0056b3;
+    }
+
+    #searchResults {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 4px;
+      height: 300px;
+    }
+
+    .row-search-button {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <form>
+    <div class="search-my-box form-group d-flex">
+      <select class="form-control" style="width: auto;">
+        <option value="commercialPropertyId">상가업소번호</option>
+        <option value="name">상호명</option>
+        <option value="branchName">지점명</option>
+        <option value="majorCategoryCode">상권업종대분류코드</option>
+        <option value="majorCategoryName">상권업종대분류명</option>
+        <option value="middleCategoryCode">상권업종중분류코드</option>
+        <option value="middleCategoryName">상권업종중분류명</option>
+        <option value="subCategoryCode">상권업종소분류코드</option>
+        <option value="subCategoryName">상권업종소분류명</option>
+        <option value="industryCode">표준산업분류코드</option>
+        <option value="industryName">표준산업분류명</option>
+        <option value="cityCode">시도코드</option>
+        <option value="cityName">시도명</option>
+        <option value="districtCode">시군구코드</option>
+        <option value="districtName">시군구명</option>
+        <option value="administrativeDistrictCode">행정동코드</option>
+        <option value="administrativeDistrictName">행정동명</option>
+        <option value="legalDistrictCode">법정동코드</option>
+        <option value="legalDistrictName">법정동명</option>
+        <option value="parcelCode">지번코드</option>
+        <option value="landCategoryCode">대지구분코드</option>
+        <option value="landCategoryName">대지구분명</option>
+        <option value="parcelMainNumber">지번본번지</option>
+        <option value="parcelSubNumber">지번부번지</option>
+        <option value="parcelAddress">지번주소</option>
+        <option value="roadCode">도로명코드</option>
+        <option value="roadName">도로명</option>
+        <option value="buildingMainNumber">건물본번지</option>
+        <option value="buildingSubNumber">건물부번지</option>
+        <option value="buildingManagementNumber">건물관리번호</option>
+        <option value="buildingName">건물명</option>
+        <option value="roadAddress">도로명주소</option>
+        <option value="oldZipCode">구우편번호</option>
+        <option value="newZipCode">신우편번호</option>
+        <option value="dongInfo">동정보</option>
+        <option value="floorInfo">층정보</option>
+        <option value="unitInfo">호정보</option>
+        <option value="longitude">경도</option>
+        <option value="latitude">위도</option>
+      </select>
+      <input id="searchInput" class="form-control" type="text" placeholder="검색어 입력">
+    </div>
+    <div class="row row-search-button">
+      <button id="searchButton" class="btn btn-primary col">검색</button>
+    </div>
+  </form>
+  <div id="searchResults" class="mt-4">
+    <!-- 검색 결과가 여기에 나타납니다. -->
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  // 간단한 검색을 위한 jQuery 코드
+  $(document).ready(function () {
+    $("#searchButton").click(function () {
+      var searchTerm = $("#searchInput").val();
+      if (searchTerm.trim() !== "") {
+      }
+    });
+  });
+</script>
+
+
+</body>
+</html>
