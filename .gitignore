@@ -12,9 +12,7 @@ gradle
 *.csv
 csv/small
 !csv/small/test.csv
-!./csv/.lock
-!./csv/sincedb
-!./csv/uuid
+./csv/*
 
 ### IntelliJ IDEA ###
 .idea
