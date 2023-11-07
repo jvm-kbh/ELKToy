@@ -12,7 +12,7 @@ gradle
 *.csv
 csv/small
 !csv/small/test.csv
-./csv/*
+./csv/**
 
 ### IntelliJ IDEA ###
 .idea
