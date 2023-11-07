@@ -28,7 +28,7 @@ services:
       - elk-network
     volumes:
       - type: bind
-        source: ./csv/small
+        source: ./csv
         target: /usr/share/logstash/data
       - type: bind
         source: ./logstash/pipeline
