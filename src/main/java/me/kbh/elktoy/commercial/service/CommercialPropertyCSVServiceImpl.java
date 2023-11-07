@@ -10,7 +10,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import me.kbh.elktoy.commercial.model.CommercialProperty;
-import me.kbh.elktoy.commercial.repository.CommercialPropertyRepository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CommercialPropertyCSVServiceImpl implements CommercialPropertyCSVService {
-
-  CommercialPropertyRepository commercialPropertyRepository;
-
   @Override
   public void createDummyData() {
     try (Reader reader = new BufferedReader(new FileReader("./csv/small/test.csv"))) {
@@ -29,7 +25,6 @@ public class CommercialPropertyCSVServiceImpl implements CommercialPropertyCSVSe
       List<CommercialProperty> commercialPropertyList =
           StreamSupport.stream(records.spliterator(), false).map(CommercialProperty::new).toList();
 
-      commercialPropertyRepository.saveAll(commercialPropertyList);
 
     } catch (IOException e) {
       throw new RuntimeException(e);
