@@ -1,4 +1,7 @@
 {
+  "_id": {
+    "path": "commercialPropertyId"
+  },
   "properties": {
     "commercialPropertyId": {
       "type": "text",
