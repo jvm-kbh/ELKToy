@@ -83,7 +83,7 @@
       }
     },
     "districtCode": {
-      "type": "keyword"
+      "type": "integer"
     },
     "districtName": {
       "type": "text",
@@ -94,7 +94,7 @@
       }
     },
     "administrativeDistrictCode": {
-      "type": "keyword"
+      "type": "integer"
     },
     "administrativeDistrictName": {
       "type": "text",
@@ -105,7 +105,7 @@
       }
     },
     "legalDistrictCode": {
-      "type": "keyword"
+      "type": "long"
     },
     "legalDistrictName": {
       "type": "text",
@@ -116,7 +116,7 @@
       }
     },
     "parcelCode": {
-      "type": "keyword"
+      "type": "long"
     },
     "landCategoryCode": {
       "type": "keyword"
@@ -144,7 +144,7 @@
       }
     },
     "roadCode": {
-      "type": "keyword"
+      "type": "long"
     },
     "roadName": {
       "type": "text",
@@ -161,7 +161,7 @@
       "type": "integer"
     },
     "buildingManagementNumber": {
-      "type": "keyword"
+      "type": "double"
     },
     "buildingName": {
       "type": "text"
@@ -175,10 +175,10 @@
       }
     },
     "oldZipCode": {
-      "type": "keyword"
+      "type": "integer"
     },
     "newZipCode": {
-      "type": "keyword"
+      "type": "integer"
     },
     "dongInfo": {
       "type": "text",
