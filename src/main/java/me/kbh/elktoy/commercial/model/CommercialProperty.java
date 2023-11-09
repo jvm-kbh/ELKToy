@@ -37,13 +37,13 @@ public class CommercialProperty {
   String parcelCode; // 지번코드
   String landCategoryCode; // 대지구분코드
   String landCategoryName; // 대지구분명
-  int parcelMainNumber; // 지번본번지
-  int parcelSubNumber; // 지번부번지
+  String parcelMainNumber; // 지번본번지
+  String parcelSubNumber; // 지번부번지
   String parcelAddress; // 지번주소
   String roadCode; // 도로명코드
   String roadName; // 도로명
-  int buildingMainNumber; // 건물본번지
-  int buildingSubNumber; // 건물부번지
+  String buildingMainNumber; // 건물본번지
+  String buildingSubNumber; // 건물부번지
   String buildingManagementNumber; // 건물관리번호
   String buildingName; // 건물명
   String roadAddress; // 도로명주소
@@ -52,63 +52,6 @@ public class CommercialProperty {
   String dongInfo; // 동정보
   String floorInfo; // 층정보
   String unitInfo; // 호정보
-  double longitude; // 경도
-  double latitude; // 위도
-
-  @Builder
-  public CommercialProperty(CSVRecord csvRecord) {
-    this.commercialPropertyId = csvRecord.get("\uFEFFcommercialPropertyId");
-    this.name = csvRecord.get("name");
-    this.branchName = csvRecord.get("branchName");
-    this.majorCategoryCode = csvRecord.get("majorCategoryCode");
-    this.majorCategoryName = csvRecord.get("majorCategoryName");
-    this.middleCategoryCode = csvRecord.get("middleCategoryCode");
-    this.middleCategoryName = csvRecord.get("middleCategoryName");
-    this.subCategoryCode = csvRecord.get("subCategoryCode");
-    this.subCategoryName = csvRecord.get("subCategoryName");
-    this.industryCode = csvRecord.get("industryCode");
-    this.industryName = csvRecord.get("industryName");
-    this.cityCode = csvRecord.get("cityCode");
-    this.cityName = csvRecord.get("cityName");
-    this.districtCode = csvRecord.get("districtCode");
-    this.districtName = csvRecord.get("districtName");
-    this.administrativeDistrictCode = csvRecord.get("administrativeDistrictCode");
-    this.administrativeDistrictName = csvRecord.get("administrativeDistrictName");
-    this.legalDistrictCode = csvRecord.get("legalDistrictCode");
-    this.legalDistrictName = csvRecord.get("legalDistrictName");
-    this.parcelCode = csvRecord.get("parcelCode");
-    this.landCategoryCode = csvRecord.get("landCategoryCode");
-    this.landCategoryName = csvRecord.get("landCategoryName");
-    this.parcelMainNumber =
-        csvRecord.get("parcelMainNumber").isBlank()
-            ? 0
-            : Integer.parseInt(csvRecord.get("parcelMainNumber"));
-    this.parcelSubNumber =
-        csvRecord.get("parcelSubNumber").isBlank()
-            ? 0
-            : Integer.parseInt(csvRecord.get("parcelSubNumber"));
-    this.parcelAddress = csvRecord.get("parcelAddress");
-    this.roadCode = csvRecord.get("roadCode");
-    this.roadName = csvRecord.get("roadName");
-    this.buildingMainNumber =
-        csvRecord.get("buildingMainNumber").isBlank()
-            ? 0
-            : Integer.parseInt(csvRecord.get("buildingMainNumber"));
-    this.buildingSubNumber =
-        csvRecord.get("buildingSubNumber").isBlank()
-            ? 0
-            : Integer.parseInt(csvRecord.get("buildingSubNumber"));
-    this.buildingManagementNumber = csvRecord.get("buildingManagementNumber");
-    this.buildingName = csvRecord.get("buildingName");
-    this.roadAddress = csvRecord.get("roadAddress");
-    this.oldZipCode = csvRecord.get("oldZipCode");
-    this.newZipCode = csvRecord.get("newZipCode");
-    this.dongInfo = csvRecord.get("dongInfo");
-    this.floorInfo = csvRecord.get("floorInfo");
-    this.unitInfo = csvRecord.get("unitInfo");
-    this.longitude =
-        csvRecord.get("longitude").isBlank() ? 0D : Double.parseDouble(csvRecord.get("longitude"));
-    this.latitude =
-        csvRecord.get("latitude").isBlank() ? 0D : Double.parseDouble(csvRecord.get("latitude"));
-  }
+  String longitude; // 경도
+  String latitude; // 위도
 }
