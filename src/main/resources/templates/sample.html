@@ -1,46 +1,62 @@
 <html lang="ko" data-bs-theme="dark">
 <head>
   <title>서울상가 검색</title>
+  <meta charset="UTF-8" http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
         crossorigin="anonymous">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-      href="https://fonts.googleapis.com/css2?family=Dongle:wght@300&family=Gaegu:wght@300&display=swap"
-      rel="stylesheet">
-  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;400;900&display=swap"
+        rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
     }
 
+    .es-navbar {
+      height: 5vh;
+    }
+
     body {
-      background-color: #1C191F;
-      font-family: 'Dongle', sans-serif;
+      background-color: #151D22;
       min-height: 100vh;
     }
 
+    body h2 {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400 !important;
+    }
+
     .input-group input, select, button {
-      font-size: 25px !important;
+      font-size: 15px !important;
     }
 
     .condition-wrapper {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       background-color: #2A2D30;
       color: #fff;
-      height: 90vh;
+      height: 50vh;
 
       padding-left: 1em;
       padding-right: 1em;
       border-radius: 5px;
     }
 
+    .condition-wrapper .pagination-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .page-link {
+      font-size: 10px;
+    }
+
     .result-wrapper {
-      background-color: #1C191F;
       color: #fff;
     }
 
@@ -61,32 +77,84 @@
       border-radius: 5px;
     }
 
-    .data-group p {
-      margin: 0;
-      padding: 0;
-      font-size: 20px;
-      color: #fff;
-      line-height: 1;
+    .data-container {
+      border-radius: 5px;
+    }
 
+    .data-head-row {
+      border-bottom: 1px solid #4a4754;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+
+    .data-head-row .badge {
+      background-color: #4d77ff;
+      color: #fff;
+    }
+
+    .data-main-title {
+      color: #4d77ff;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .data-main-text {
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .data-sub-title {
+      color: #74727c;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .data-sub-text {
+      color: #fff;
+      font-size: 18px;
     }
 
     div h2 {
       margin-top: 1em;
       margin-bottom: 1em;
     }
+
+    #spinner-div {
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(50, 50, 50, 0.8);
+      z-index: 2;
+    }
+
+    .spinner-border {
+      width: 10em;
+      height: 10em;
+    }
   </style>
 
 </head>
 
 <body>
-<div class="body-container container-fluid col-12">
-  <div class="row">
-    <div class="col-3">
-      <div class="condition-wrapper">
-        <h2>condition</h2>
+
+<div id="spinner-div" class="pt-5">
+  <div class="spinner-border text-secondary" role="status">
+  </div>
+</div>
+
+<nav class="es-navbar navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="collapse navbar-collapse justify-content-center">
+    <ul class="navbar-nav ">
+      <li class="nav-item active">
         <div class="input-group">
           <select class="form-select">
-            <option selected>검색 기준</option>
+            <option value="">전체</option>
             <option value="commercialPropertyId">상가업소번호</option>
             <option value="name">상호명</option>
             <option value="branchName">지점명</option>
@@ -128,86 +196,143 @@
           <input id="search-input" class="form-control" type="text" placeholder="검색어 입력">
           <button id="search-button" class="btn btn-secondary">검색</button>
         </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="body-container container-fluid col-12">
+  <div class="row">
+    <div class="col-4">
+      <h2>condition</h2>
+      <div class="condition-wrapper">
+
+        <div id="pagination" class="input-group pagination-wrapper">
+
+        </div>
       </div>
     </div>
-    <div class="col-9">
+    <div class="col-8">
       <div class="result-wrapper">
         <h2>검색 결과</h2>
         <div id="search-result" class="">
-          <div id="data-component" class="data-component">
-
-          </div>
+          <div id="data-component" class="data-component"></div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<input id="count" type="hidden">
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script id="commercial-property-template" type="text/html">
   <div class="data-group">
-    <div class="row">
-      <div class="col">
-        <p>상호명 : {%name%}</p>
-        <p>지점명 : {%branchName%}</p>
+    <div class="data-container container-fluid">
+      <div class="data-head-row row">
+        <div class="col-4">
+          <div class="data-main-title">상호명</div>
+          <div class="data-main-text">{%name%}</div>
+        </div>
+        <div class="col-4">
+          <div class="data-main-title">지점명</div>
+          <div class="data-main-text">{%branchName%}</div>
+        </div>
+        <div class="col-4">
+          <span class="badge">위도 {%latitude%}</span>
+          <span class="badge">경도 {%longitude%}</span>
+        </div>
       </div>
-      <div class="col">
-        <p>상권업종대분류명 : {%majorCategoryName%}</p>
-        <p>상권업종중분류명 : {%middleCategoryName%}</p>
-        <p>상권업종소분류명 : {%subCategoryName%}</p>
-        <p>표준산업분류명 : {%industryName%}</p>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1">표준산업분류명</div>
+        <div class="data-sub-text col-2">{%industryName%}</div>
+        <div class="data-sub-title col-1">구우편번호</div>
+        <div class="data-sub-text col-2">{%oldZipCode%}</div>
+        <div class="data-sub-title col-1">도로명코드</div>
+        <div class="data-sub-text col-2">{%roadCode%}</div>
+        <div class="data-sub-title col-1">건물명</div>
+        <div class="data-sub-text col-2">{%buildingName%}</div>
       </div>
-      <div class="col">
-        <p>시도명 : {%cityName%}</p>
-        <p>시군구명 : {%districtName%}</p>
-        <p>행정동명 : {%administrativeDistrictName%}</p>
-        <p>법정동명 : {%legalDistrictName%}</p>
-        <p>대지구분명 : {%landCategoryName%}</p>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1">행정동명</div>
+        <div class="data-sub-text col-2">{%administrativeDistrictName%}</div>
+        <div class="data-sub-title col-1">신우편번호</div>
+        <div class="data-sub-text col-2">{%newZipCode%}</div>
+        <div class="data-sub-title col-1">도로명주소</div>
+        <div class="data-sub-text col-2">{%roadAddress%}</div>
+        <div class="data-sub-title col-1">건물관리번호</div>
+        <div class="data-sub-text col-2">{%buildingManagementNumber%}</div>
       </div>
-      <div class="col">
-        <p>지번코드 : {%parcelCode%}</p>
-        <p>지번주소 : {%parcelAddress%}</p>
-        <p>지번본번지 : {%parcelMainNumber%}</p>
-        <p>지번부번지 : {%parcelSubNumber%}</p>
-        <p>도로명코드 : {%roadCode%}</p>
-        <p>도로명 : {%roadName%}</p>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1">법정동명</div>
+        <div class="data-sub-text col-2">{%legalDistrictName%}</div>
+        <div class="data-sub-title col-1">시도명</div>
+        <div class="data-sub-text col-2">{%cityName%}</div>
+        <div class="data-sub-title col-1">지번코드</div>
+        <div class="data-sub-text col-2">{%parcelCode%}</div>
+        <div class="data-sub-title col-1">건물본번지</div>
+        <div class="data-sub-text col-2">{%buildingMainNumber%}</div>
       </div>
-      <div class="col">
-        <p>건물본번지 : {%buildingMainNumber%}</p>
-        <p>건물부번지 : {%buildingSubNumber%}</p>
-        <p>건물관리번호 : {%buildingManagementNumber%}</p>
-        <p>건물명 : {%buildingName%}</p>
-        <p>구우편번호 : {%oldZipCode%}</p>
-        <p>신우편번호 : {%newZipCode%}</p>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1">대지구분명</div>
+        <div class="data-sub-text col-2">{%landCategoryName%}</div>
+        <div class="data-sub-title col-1">시군구명</div>
+        <div class="data-sub-text col-2">{%districtName%}</div>
+        <div class="data-sub-title col-1">지번주소</div>
+        <div class="data-sub-text col-2">{%parcelAddress%}</div>
+        <div class="data-sub-title col-1">건물부번지</div>
+        <div class="data-sub-text col-2">{%buildingSubNumber%}</div>
       </div>
-      <div class="col">
-        <p>동정보 : {%dongInfo%}</p>
-        <p>층정보 : {%floorInfo%}</p>
-        <p>호정보 : {%unitInfo%}</p>
-        <p>경도 : {%longitude%}</p>
-        <p>위도 : {%latitude%}</p>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1"></div>
+        <div class="data-sub-text col-2"></div>
+        <div class="data-sub-title col-1"></div>
+        <div class="data-sub-text col-2"></div>
+        <div class="data-sub-title col-1">지번본번지</div>
+        <div class="data-sub-text col-2">{%parcelMainNumber%}</div>
+        <div class="data-sub-title col-1">동정보</div>
+        <div class="data-sub-text col-2">{%dongInfo%}</div>
+      </div>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1"></div>
+        <div class="data-sub-text col-2"></div>
+        <div class="data-sub-title col-1"></div>
+        <div class="data-sub-text col-2"></div>
+        <div class="data-sub-title col-1">지번부번지</div>
+        <div class="data-sub-text col-2">{%parcelSubNumber%}</div>
+        <div class="data-sub-title col-1">호정보</div>
+        <div class="data-sub-text col-2">{%unitInfo%}</div>
       </div>
     </div>
   </div>
 </script>
-<script src="../static/search-event.js"></script>
-<script src="../static/result-event.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script src="/static/simple-bootstrap-paginator.min.js"></script>
+<script src="/static/search-event.js"></script>
+<script src="/static/result-event.js"></script>
+<script src="/static/page-event.js"></script>
 <script>
   $(function () {
+
+    pageEvent.init();
+
+    resultEvent.generate();
+
     $("#search-button").on("click", function () {
 
-      // $.ajax({
-      //   url: "/commercial-property/elasticsearch-post",
-      //   type: "GET",
-      //   dataType: "json",
-      //   success: function(data) {
-      //     $("#api2Result").html(JSON.stringify(data, null, 2));
-      //   },
-      //   error: function(xhr, status, error) {
-      //     $("#api2Result").html("에러: " + error);
-      //   }
-      // });
+      $.ajax({
+        url: "/commercial-property/elasticsearch-post",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+          $("#api2Result").html(JSON.stringify(data, null, 2));
+        },
+        error: function(xhr, status, error) {
+          $("#api2Result").html("에러: " + error);
+        }
+      });
 
       /*var $temp = $("<input>");
       $("body").append($temp);
@@ -218,8 +343,5 @@
       //resultEvent.generate();
     });
   });
-</script>
-<script>
-
 </script>
 </html>
