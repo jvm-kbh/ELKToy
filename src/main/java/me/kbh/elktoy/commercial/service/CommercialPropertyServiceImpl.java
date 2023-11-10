@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import me.kbh.elktoy.commercial.code.CommercialPropertyAPICode;
+import me.kbh.elktoy.commercial.code.CommercialPropertyColumCode;
 import me.kbh.elktoy.commercial.code.CommercialPropertyFieldCode;
 import me.kbh.elktoy.commercial.component.RestComponent;
 import me.kbh.elktoy.commercial.dto.CommercialPropertyDto;
@@ -39,57 +40,19 @@ public class CommercialPropertyServiceImpl implements CommercialPropertyService 
                       """
                         {
                           "from": %d,
-                          "size": 10,
-                          "_source": [
-                            "commercialPropertyId",
-                            "name",
-                            "branchName",
-                            "majorCategoryCode",
-                            "majorCategoryName",
-                            "middleCategoryCode",
-                            "middleCategoryName",
-                            "subCategoryCode",
-                            "subCategoryName",
-                            "industryCode",
-                            "industryName",
-                            "cityCode",
-                            "cityName",
-                            "districtCode",
-                            "districtName",
-                            "administrativeDistrictCode",
-                            "administrativeDistrictName",
-                            "legalDistrictCode",
-                            "legalDistrictName",
-                            "parcelCode",
-                            "landCategoryCode",
-                            "landCategoryName",
-                            "parcelMainNumber",
-                            "parcelSubNumber",
-                            "parcelAddress",
-                            "roadCode",
-                            "roadName",
-                            "buildingMainNumber",
-                            "buildingSubNumber",
-                            "buildingManagementNumber",
-                            "buildingName",
-                            "roadAddress",
-                            "oldZipCode",
-                            "newZipCode",
-                            "dongInfo",
-                            "floorInfo",
-                            "unitInfo",
-                            "longitude",
-                            "latitude"
-                          ]
+                          "size": %d,
+                          "_source": [ %s ]
                         }
                       """
-            .formatted((from - 1) * 10);
+            .formatted((from - 1) * 10, 10, CommercialPropertyColumCode.ALL.getColumString());
 
-    String apiResult = restComponent.sendPostRequest("/_search", jsonBody, String.class);
+    String apiResult =
+        restComponent.sendPostRequest(
+            CommercialPropertyAPICode.SEARCH.getApiUrl(), jsonBody, String.class);
 
-    List<LinkedHashMap<String, Object>> finalResult;
+    List<LinkedHashMap<String, Object>> hitList;
     try {
-      finalResult =
+      hitList =
           StreamSupport.stream(
                   objectMapper.readTree(apiResult).path("hits").path("hits").spliterator(), false)
               .map(hit -> hit.get("_source"))
@@ -104,8 +67,8 @@ public class CommercialPropertyServiceImpl implements CommercialPropertyService 
     }
 
     List<CommercialPropertyDto> commercialPropertyDtoList =
-        finalResult.stream()
-            .map(data -> CommercialPropertyDto.builderByData().indexData(data).dataBuild())
+        hitList.stream()
+            .map(data -> CommercialPropertyDto.builderByData().hitData(data).dataBuild())
             .toList();
 
     return CommercialPropertyResponse.builder()

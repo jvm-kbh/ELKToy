@@ -317,30 +317,10 @@
   $(function () {
 
     pageEvent.init();
-
     resultEvent.generate();
 
     $("#search-button").on("click", function () {
 
-      $.ajax({
-        url: "/commercial-property/elasticsearch-post",
-        type: "GET",
-        dataType: "json",
-        success: function(data) {
-          $("#api2Result").html(JSON.stringify(data, null, 2));
-        },
-        error: function(xhr, status, error) {
-          $("#api2Result").html("에러: " + error);
-        }
-      });
-
-      /*var $temp = $("<input>");
-      $("body").append($temp);
-      $temp.val("....").select();
-      document.execCommand("copy");
-      $temp.remove();*/
-
-      //resultEvent.generate();
     });
   });
 </script>
