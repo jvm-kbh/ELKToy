@@ -1,139 +1,327 @@
-<html>
+<html lang="ko" data-bs-theme="dark">
 <head>
-  <title>이쁜 검색 UI</title>
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
-  <meta charset="UTF-8">
+  <title>서울상가 검색</title>
+  <meta charset="UTF-8" http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;400;900&display=swap"
+        rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .es-navbar {
+      height: 5vh;
+    }
+
     body {
-      background-color: #f5f5f5;
+      background-color: #151D22;
+      min-height: 100vh;
+    }
+
+    body h2 {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400 !important;
+    }
+
+    .input-group input, select, button {
+      font-size: 15px !important;
+    }
+
+    .condition-wrapper {
       display: flex;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      width: 600px; /* 컨테이너의 폭을 조정 */
-    }
-
-    .h1-wrapper {
-      text-align: center;
-    }
-
-    h1 {
-      color: #333;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    #searchInput {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      width: 70%;
-    }
-
-    #searchButton {
-      background-color: #007bff;
+      flex-wrap: wrap;
+      background-color: #2A2D30;
       color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 20px;
-      cursor: pointer;
-      width: 30%;
+      height: 50vh;
+
+      padding-left: 1em;
+      padding-right: 1em;
+      border-radius: 5px;
     }
 
-    #searchButton:hover {
-      background-color: #0056b3;
+    .condition-wrapper .pagination-wrapper {
+      display: flex;
+      justify-content: center;
     }
 
-    #searchResults {
-      background-color: #f8f9fa;
-      padding: 20px;
-      border-radius: 4px;
-      height: 300px;
+    .page-link {
+      font-size: 10px;
     }
 
-    .row-search-button {
-      padding: 20px;
+    .result-wrapper {
+      color: #fff;
+    }
+
+    .data-component {
+      background-color: #2A2D30;
+      border-radius: 5px;
+      border: 2px solid #2A2D30;
+    }
+
+    .data-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin: 1em;
+      padding: 1em;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      background-color: #2C2A30;
+      border-radius: 5px;
+    }
+
+    .data-container {
+      border-radius: 5px;
+    }
+
+    .data-head-row {
+      border-bottom: 1px solid #4a4754;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+
+    .data-head-row .badge {
+      background-color: #4d77ff;
+      color: #fff;
+    }
+
+    .data-main-title {
+      color: #4d77ff;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .data-main-text {
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .data-sub-title {
+      color: #74727c;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .data-sub-text {
+      color: #fff;
+      font-size: 18px;
+    }
+
+    div h2 {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+
+    #spinner-div {
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(50, 50, 50, 0.8);
+      z-index: 2;
+    }
+
+    .spinner-border {
+      width: 10em;
+      height: 10em;
     }
   </style>
+
 </head>
+
 <body>
-<div class="container">
-  <form>
-    <div class="search-my-box form-group d-flex">
-      <select class="form-control" style="width: auto;">
-        <option value="commercialPropertyId">상가업소번호</option>
-        <option value="name">상호명</option>
-        <option value="branchName">지점명</option>
-        <option value="majorCategoryCode">상권업종대분류코드</option>
-        <option value="majorCategoryName">상권업종대분류명</option>
-        <option value="middleCategoryCode">상권업종중분류코드</option>
-        <option value="middleCategoryName">상권업종중분류명</option>
-        <option value="subCategoryCode">상권업종소분류코드</option>
-        <option value="subCategoryName">상권업종소분류명</option>
-        <option value="industryCode">표준산업분류코드</option>
-        <option value="industryName">표준산업분류명</option>
-        <option value="cityCode">시도코드</option>
-        <option value="cityName">시도명</option>
-        <option value="districtCode">시군구코드</option>
-        <option value="districtName">시군구명</option>
-        <option value="administrativeDistrictCode">행정동코드</option>
-        <option value="administrativeDistrictName">행정동명</option>
-        <option value="legalDistrictCode">법정동코드</option>
-        <option value="legalDistrictName">법정동명</option>
-        <option value="parcelCode">지번코드</option>
-        <option value="landCategoryCode">대지구분코드</option>
-        <option value="landCategoryName">대지구분명</option>
-        <option value="parcelMainNumber">지번본번지</option>
-        <option value="parcelSubNumber">지번부번지</option>
-        <option value="parcelAddress">지번주소</option>
-        <option value="roadCode">도로명코드</option>
-        <option value="roadName">도로명</option>
-        <option value="buildingMainNumber">건물본번지</option>
-        <option value="buildingSubNumber">건물부번지</option>
-        <option value="buildingManagementNumber">건물관리번호</option>
-        <option value="buildingName">건물명</option>
-        <option value="roadAddress">도로명주소</option>
-        <option value="oldZipCode">구우편번호</option>
-        <option value="newZipCode">신우편번호</option>
-        <option value="dongInfo">동정보</option>
-        <option value="floorInfo">층정보</option>
-        <option value="unitInfo">호정보</option>
-        <option value="longitude">경도</option>
-        <option value="latitude">위도</option>
-      </select>
-      <input id="searchInput" class="form-control" type="text" placeholder="검색어 입력">
-    </div>
-    <div class="row row-search-button">
-      <button id="searchButton" class="btn btn-primary col">검색</button>
-    </div>
-  </form>
-  <div id="searchResults" class="mt-4">
-    <!-- 검색 결과가 여기에 나타납니다. -->
+
+<div id="spinner-div" class="pt-5">
+  <div class="spinner-border text-secondary" role="status">
   </div>
 </div>
 
+<nav class="es-navbar navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="collapse navbar-collapse justify-content-center">
+    <ul class="navbar-nav ">
+      <li class="nav-item active">
+        <div class="input-group">
+          <select class="form-select">
+            <option value="">전체</option>
+            <option value="commercialPropertyId">상가업소번호</option>
+            <option value="name">상호명</option>
+            <option value="branchName">지점명</option>
+            <option value="majorCategoryCode">상권업종대분류코드</option>
+            <option value="majorCategoryName">상권업종대분류명</option>
+            <option value="middleCategoryCode">상권업종중분류코드</option>
+            <option value="middleCategoryName">상권업종중분류명</option>
+            <option value="subCategoryCode">상권업종소분류코드</option>
+            <option value="subCategoryName">상권업종소분류명</option>
+            <option value="industryCode">표준산업분류코드</option>
+            <option value="industryName">표준산업분류명</option>
+            <option value="cityCode">시도코드</option>
+            <option value="cityName">시도명</option>
+            <option value="districtCode">시군구코드</option>
+            <option value="districtName">시군구명</option>
+            <option value="administrativeDistrictCode">행정동코드</option>
+            <option value="administrativeDistrictName">행정동명</option>
+            <option value="legalDistrictCode">법정동코드</option>
+            <option value="legalDistrictName">법정동명</option>
+            <option value="parcelCode">지번코드</option>
+            <option value="landCategoryCode">대지구분코드</option>
+            <option value="landCategoryName">대지구분명</option>
+            <option value="parcelMainNumber">지번본번지</option>
+            <option value="parcelSubNumber">지번부번지</option>
+            <option value="parcelAddress">지번주소</option>
+            <option value="roadCode">도로명코드</option>
+            <option value="roadName">도로명</option>
+            <option value="buildingMainNumber">건물본번지</option>
+            <option value="buildingSubNumber">건물부번지</option>
+            <option value="buildingManagementNumber">건물관리번호</option>
+            <option value="buildingName">건물명</option>
+            <option value="roadAddress">도로명주소</option>
+            <option value="oldZipCode">구우편번호</option>
+            <option value="newZipCode">신우편번호</option>
+            <option value="dongInfo">동정보</option>
+            <option value="floorInfo">층정보</option>
+            <option value="unitInfo">호정보</option>
+          </select>
+          <input id="search-input" class="form-control" type="text" placeholder="검색어 입력">
+          <button id="search-button" class="btn btn-secondary">검색</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="body-container container-fluid col-12">
+  <div class="row">
+    <div class="col-4">
+      <h2>condition</h2>
+      <div class="condition-wrapper">
+
+        <div id="pagination" class="input-group pagination-wrapper">
+
+        </div>
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="result-wrapper">
+        <h2>검색 결과</h2>
+        <div id="search-result" class="">
+          <div id="data-component" class="data-component"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input id="count" type="hidden">
+</body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script id="commercial-property-template" type="text/html">
+  <div class="data-group">
+    <div class="data-container container-fluid">
+      <div class="data-head-row row">
+        <div class="col-4">
+          <div class="data-main-title">상호명</div>
+          <div class="data-main-text">{%name%}</div>
+        </div>
+        <div class="col-4">
+          <div class="data-main-title">지점명</div>
+          <div class="data-main-text">{%branchName%}</div>
+        </div>
+        <div class="col-4">
+          <span class="badge">위도 {%latitude%}</span>
+          <span class="badge">경도 {%longitude%}</span>
+        </div>
+      </div>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1">표준산업분류명</div>
+        <div class="data-sub-text col-2">{%industryName%}</div>
+        <div class="data-sub-title col-1">구우편번호</div>
+        <div class="data-sub-text col-2">{%oldZipCode%}</div>
+        <div class="data-sub-title col-1">도로명코드</div>
+        <div class="data-sub-text col-2">{%roadCode%}</div>
+        <div class="data-sub-title col-1">건물명</div>
+        <div class="data-sub-text col-2">{%buildingName%}</div>
+      </div>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1">행정동명</div>
+        <div class="data-sub-text col-2">{%administrativeDistrictName%}</div>
+        <div class="data-sub-title col-1">신우편번호</div>
+        <div class="data-sub-text col-2">{%newZipCode%}</div>
+        <div class="data-sub-title col-1">도로명주소</div>
+        <div class="data-sub-text col-2">{%roadAddress%}</div>
+        <div class="data-sub-title col-1">건물관리번호</div>
+        <div class="data-sub-text col-2">{%buildingManagementNumber%}</div>
+      </div>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1">법정동명</div>
+        <div class="data-sub-text col-2">{%legalDistrictName%}</div>
+        <div class="data-sub-title col-1">시도명</div>
+        <div class="data-sub-text col-2">{%cityName%}</div>
+        <div class="data-sub-title col-1">지번코드</div>
+        <div class="data-sub-text col-2">{%parcelCode%}</div>
+        <div class="data-sub-title col-1">건물본번지</div>
+        <div class="data-sub-text col-2">{%buildingMainNumber%}</div>
+      </div>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1">대지구분명</div>
+        <div class="data-sub-text col-2">{%landCategoryName%}</div>
+        <div class="data-sub-title col-1">시군구명</div>
+        <div class="data-sub-text col-2">{%districtName%}</div>
+        <div class="data-sub-title col-1">지번주소</div>
+        <div class="data-sub-text col-2">{%parcelAddress%}</div>
+        <div class="data-sub-title col-1">건물부번지</div>
+        <div class="data-sub-text col-2">{%buildingSubNumber%}</div>
+      </div>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1"></div>
+        <div class="data-sub-text col-2"></div>
+        <div class="data-sub-title col-1"></div>
+        <div class="data-sub-text col-2"></div>
+        <div class="data-sub-title col-1">지번본번지</div>
+        <div class="data-sub-text col-2">{%parcelMainNumber%}</div>
+        <div class="data-sub-title col-1">동정보</div>
+        <div class="data-sub-text col-2">{%dongInfo%}</div>
+      </div>
+      <div class="sub-row row">
+        <div class="data-sub-title col-1"></div>
+        <div class="data-sub-text col-2"></div>
+        <div class="data-sub-title col-1"></div>
+        <div class="data-sub-text col-2"></div>
+        <div class="data-sub-title col-1">지번부번지</div>
+        <div class="data-sub-text col-2">{%parcelSubNumber%}</div>
+        <div class="data-sub-title col-1">호정보</div>
+        <div class="data-sub-text col-2">{%unitInfo%}</div>
+      </div>
+    </div>
+  </div>
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script src="/static/simple-bootstrap-paginator.min.js"></script>
+<script src="/static/search-event.js"></script>
+<script src="/static/result-event.js"></script>
+<script src="/static/page-event.js"></script>
 <script>
-  // 간단한 검색을 위한 jQuery 코드
-  $(document).ready(function () {
-    $("#searchButton").click(function () {
-      var searchTerm = $("#searchInput").val();
-      if (searchTerm.trim() !== "") {
-      }
+  $(function () {
+
+    pageEvent.init();
+    resultEvent.generate();
+
+    $("#search-button").on("click", function () {
+
     });
   });
 </script>
-
-
-</body>
 </html>

@@ -1,7 +1,15 @@
 {
+  "_id": {
+    "path": "commercialPropertyId"
+  },
   "properties": {
     "commercialPropertyId": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "name": {
       "type": "text",
@@ -23,58 +31,103 @@
       "type": "keyword"
     },
     "majorCategoryName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "middleCategoryCode": {
       "type": "keyword"
     },
     "middleCategoryName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "subCategoryCode": {
       "type": "keyword"
     },
     "subCategoryName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "industryCode": {
       "type": "keyword"
     },
     "industryName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "cityCode": {
       "type": "keyword"
     },
     "cityName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "districtCode": {
-      "type": "keyword"
+      "type": "integer"
     },
     "districtName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "administrativeDistrictCode": {
-      "type": "keyword"
+      "type": "integer"
     },
     "administrativeDistrictName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "legalDistrictCode": {
-      "type": "keyword"
+      "type": "long"
     },
     "legalDistrictName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "parcelCode": {
-      "type": "keyword"
+      "type": "long"
     },
     "landCategoryCode": {
       "type": "keyword"
     },
     "landCategoryName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "parcelMainNumber": {
       "type": "integer"
@@ -83,13 +136,23 @@
       "type": "integer"
     },
     "parcelAddress": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "roadCode": {
-      "type": "keyword"
+      "type": "long"
     },
     "roadName": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "buildingMainNumber": {
       "type": "integer"
@@ -98,28 +161,48 @@
       "type": "integer"
     },
     "buildingManagementNumber": {
-      "type": "keyword"
+      "type": "double"
     },
     "buildingName": {
       "type": "text"
     },
     "roadAddress": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "oldZipCode": {
-      "type": "keyword"
+      "type": "integer"
     },
     "newZipCode": {
-      "type": "keyword"
+      "type": "integer"
     },
     "dongInfo": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "floorInfo": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "unitInfo": {
-      "type": "text"
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword"
+        }
+      }
     },
     "longitude": {
       "type": "double"

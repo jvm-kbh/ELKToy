@@ -28,6 +28,7 @@
 
 ## Project Practice List
 * Case 1
+  * branch : https://github.com/jvm-kbh/ELKToy/tree/spring-boot-3-setting 
   * docker-compose.yml E,K config
   * spring data elasticsearch test
     * @Field
@@ -36,6 +37,7 @@
         * json file mapping
         * Elasticsearch Insert, search 구성  
 * Case 2
+  * branch :   
   * with out spring data elasticsearch
   * Sample Search Page (thymeleaf)
   * 공공기관 실제 데이터 활용

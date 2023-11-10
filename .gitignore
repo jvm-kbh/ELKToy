@@ -7,9 +7,14 @@ gradlew.bat
 !**/src/main/**/build/
 !**/src/test/**/build/
 gradle
+
+##elasticsearch
 *.csv
 csv/small
 !csv/small/test.csv
+/csv/.lock
+/csv/sincedb
+/csv/uuid
 
 ### IntelliJ IDEA ###
 .idea
@@ -19,3 +24,4 @@ csv/small
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
