@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;400;900&display=swap"
         rel="stylesheet">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <style>
     * {
       margin: 0;
@@ -17,7 +18,8 @@
     }
 
     .es-navbar {
-      height: 5vh;
+      height: 8vh;
+      z-index: 1;
     }
 
     body {
@@ -37,23 +39,47 @@
     .condition-wrapper {
       display: flex;
       align-items: center;
+      justify-content: center;
       flex-wrap: wrap;
       background-color: #2A2D30;
       color: #fff;
-      height: 50vh;
 
-      padding-left: 1em;
-      padding-right: 1em;
+      padding: 3em 1em;
       border-radius: 5px;
     }
 
-    .condition-wrapper .pagination-wrapper {
+    .pagination-wrapper {
       display: flex;
       justify-content: center;
+      margin: 1em;
     }
 
     .page-link {
       font-size: 10px;
+    }
+
+    .condition-subtitle{
+      color: #74727c;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .condition-check-wrapper {
+      width: 100%;
+      margin-top: 3em;
+      margin-bottom: 3em;
+      border: 2px solid #4a4754;
+      border-radius: 5px;
+      padding: 1em;
+    }
+    .major-check-group {}
+    .middle-check-group {}
+    .sub-check-group {}
+
+    .map {
+      margin-top: 3em;
+      margin-bottom: 3em;
+      width:500px;
+      height:400px;
     }
 
     .result-wrapper {
@@ -154,47 +180,12 @@
       <li class="nav-item active">
         <div class="input-group">
           <select class="form-select">
-            <option value="">전체</option>
-            <option value="commercialPropertyId">상가업소번호</option>
-            <option value="name">상호명</option>
-            <option value="branchName">지점명</option>
-            <option value="majorCategoryCode">상권업종대분류코드</option>
-            <option value="majorCategoryName">상권업종대분류명</option>
-            <option value="middleCategoryCode">상권업종중분류코드</option>
-            <option value="middleCategoryName">상권업종중분류명</option>
-            <option value="subCategoryCode">상권업종소분류코드</option>
-            <option value="subCategoryName">상권업종소분류명</option>
-            <option value="industryCode">표준산업분류코드</option>
-            <option value="industryName">표준산업분류명</option>
-            <option value="cityCode">시도코드</option>
-            <option value="cityName">시도명</option>
-            <option value="districtCode">시군구코드</option>
-            <option value="districtName">시군구명</option>
-            <option value="administrativeDistrictCode">행정동코드</option>
-            <option value="administrativeDistrictName">행정동명</option>
-            <option value="legalDistrictCode">법정동코드</option>
-            <option value="legalDistrictName">법정동명</option>
-            <option value="parcelCode">지번코드</option>
-            <option value="landCategoryCode">대지구분코드</option>
-            <option value="landCategoryName">대지구분명</option>
-            <option value="parcelMainNumber">지번본번지</option>
-            <option value="parcelSubNumber">지번부번지</option>
-            <option value="parcelAddress">지번주소</option>
-            <option value="roadCode">도로명코드</option>
-            <option value="roadName">도로명</option>
-            <option value="buildingMainNumber">건물본번지</option>
-            <option value="buildingSubNumber">건물부번지</option>
-            <option value="buildingManagementNumber">건물관리번호</option>
-            <option value="buildingName">건물명</option>
-            <option value="roadAddress">도로명주소</option>
-            <option value="oldZipCode">구우편번호</option>
-            <option value="newZipCode">신우편번호</option>
-            <option value="dongInfo">동정보</option>
-            <option value="floorInfo">층정보</option>
-            <option value="unitInfo">호정보</option>
+            <option selected value="name">상호명</option>
           </select>
           <input id="search-input" class="form-control" type="text" placeholder="검색어 입력">
           <button id="search-button" class="btn btn-secondary">검색</button>
+
+          <div id="pagination" class="input-group pagination-wrapper"></div>
         </div>
       </li>
     </ul>
@@ -206,10 +197,19 @@
     <div class="col-4">
       <h2>condition</h2>
       <div class="condition-wrapper">
-
-        <div id="pagination" class="input-group pagination-wrapper">
+        <div class="condition-subtitle">TOP10 상권 대분류</div>
+        <div class="condition-check-wrapper major-check-group">
+        </div>
+        <div class="condition-subtitle">TOP10 상권 중분류</div>
+        <div class="condition-check-wrapper middle-check-group">
 
         </div>
+        <div class="condition-subtitle">TOP10 상권 소분류</div>
+        <div class="condition-check-wrapper sub-check-group">
+
+        </div>
+        <div class="condition-subtitle">위치기반 조건(해당 마커의 반경 10km)</div>
+        <div id="map" class="map"></div>
       </div>
     </div>
     <div class="col-8">
@@ -225,7 +225,23 @@
 
 <input id="count" type="hidden">
 </body>
+
+<!-- external library-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script src="/static/simple-bootstrap-paginator.min.js"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c9838bc2c429e45ad8483b0a908e99a"></script>
+
+<!--event js-->
+<script src="/static/result-event.js"></script>
+<script src="/static/page-event.js"></script>
+<script src="/static/map-event.js"></script>
+
+<!--template-->
 <script id="commercial-property-template" type="text/html">
   <div class="data-group">
     <div class="data-container container-fluid">
@@ -306,18 +322,26 @@
     </div>
   </div>
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-<script src="/static/simple-bootstrap-paginator.min.js"></script>
-<script src="/static/search-event.js"></script>
-<script src="/static/result-event.js"></script>
-<script src="/static/page-event.js"></script>
+
+<script id="radio-template-for-aggregation" type="text/html">
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="aggregation-radio" id="{%category%}-checkbox-{%index%}">
+    <label class="form-check-label" for="{%category%}-checkbox-{%index%}">
+      <span class="badge bg-primary">{%aggregationName%}</span> : <span class="badge rounded-pill bg-success">{%aggregationCount%}</span> : <span class="badge rounded-pill bg-danger">{%aggregationCode%}</span>
+      <input name="category-type" type="hidden" value="{%category%}">
+      <input name="category-code" type="hidden" value="{%aggregationCode%}">
+    </label>
+  </div>
+</script>
+
+
 <script>
   $(function () {
 
     pageEvent.init();
+    pageEvent.initAggregation();
     resultEvent.generate();
+    mapEvent.init();
 
     $("#search-button").on("click", function () {
 

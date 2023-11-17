@@ -6,7 +6,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Spliterator;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,9 @@ import me.kbh.elktoy.commercial.code.CommercialPropertyColumCode;
 import me.kbh.elktoy.commercial.code.CommercialPropertyFieldCode;
 import me.kbh.elktoy.commercial.component.RestComponent;
 import me.kbh.elktoy.commercial.dto.CommercialPropertyDto;
+import me.kbh.elktoy.commercial.dto.aggregation.CommercialPropertyAggregation;
+import me.kbh.elktoy.commercial.dto.conditon.CommercialPropertySearchCondition;
+import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyAggregationResponse;
 import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyResponse;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +43,7 @@ public class CommercialPropertyServiceImpl implements CommercialPropertyService 
   @Override
   public CommercialPropertyResponse findAll(int from) {
     String jsonBody =
-                      """
+        """
                         {
                           "from": %d,
                           "size": %d,
@@ -54,7 +60,7 @@ public class CommercialPropertyServiceImpl implements CommercialPropertyService 
     try {
       hitList =
           StreamSupport.stream(
-                  objectMapper.readTree(apiResult).path("hits").path("hits").spliterator(), false)
+                  objectMapper.readTree(apiResult).get("hits").get("hits").spliterator(), false)
               .map(hit -> hit.get("_source"))
               .filter(Objects::nonNull)
               .map(
@@ -89,5 +95,129 @@ public class CommercialPropertyServiceImpl implements CommercialPropertyService 
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public CommercialPropertyAggregationResponse getAggregationList() {
+    String jsonBody =
+        """
+        {
+          "size": 0,
+          "aggs": {
+            "majorCategoryNameAggregation": {
+              "terms": {
+                "field": "majorCategoryName.keyword",
+                "size": 10
+              },
+              "aggs": {
+                "code": {
+                  "terms": {
+                    "field": "majorCategoryCode"
+                  }
+                }
+              }
+            },
+            "middleCategoryNameAggregation": {
+              "terms": {
+                "field": "middleCategoryName.keyword",
+                "size": 10
+              },
+              "aggs": {
+                "code": {
+                  "terms": {
+                    "field": "middleCategoryCode"
+                  }
+                }
+              }
+            },
+            "subCategoryNameAggregation": {
+              "terms": {
+                "field": "subCategoryName.keyword",
+                "size": 10
+              },
+              "aggs": {
+                "code": {
+                  "terms": {
+                    "field": "subCategoryCode"
+                  }
+                }
+              }
+            }
+          }
+        }""";
+    String apiResult =
+        restComponent.sendPostRequest(
+            CommercialPropertyAPICode.SEARCH.getApiUrl(), jsonBody, String.class);
+
+    List<Map<String, String>> major = processCategoryAggregation(apiResult, "major");
+    List<Map<String, String>> middle = processCategoryAggregation(apiResult, "middle");
+    List<Map<String, String>> sub = processCategoryAggregation(apiResult, "sub");
+
+    CommercialPropertyAggregation majorCommercialPropertyAggregation =
+        CommercialPropertyAggregation.builder()
+            .aggregationTitle("major")
+            .aggregationDataMap(major)
+            .build();
+    CommercialPropertyAggregation middleCommercialPropertyAggregation =
+        CommercialPropertyAggregation.builder()
+            .aggregationTitle("middle")
+            .aggregationDataMap(middle)
+            .build();
+    CommercialPropertyAggregation subCommercialPropertyAggregation =
+        CommercialPropertyAggregation.builder()
+            .aggregationTitle("sub")
+            .aggregationDataMap(sub)
+            .build();
+
+    List<CommercialPropertyAggregation> commercialPropertyAggregationList =
+        List.of(
+            majorCommercialPropertyAggregation,
+            middleCommercialPropertyAggregation,
+            subCommercialPropertyAggregation);
+
+    return CommercialPropertyAggregationResponse.builder()
+        .commercialPropertyAggregationList(commercialPropertyAggregationList)
+        .build();
+  }
+
+  @Override
+  public CommercialPropertyResponse findAllByCondition(
+      CommercialPropertySearchCondition condition) {
+    return null;
+  }
+
+  private List<Map<String, String>> processCategoryAggregation(String apiResult, String type) {
+    Spliterator<JsonNode> bucketSpliterator;
+    try {
+      bucketSpliterator =
+          objectMapper
+              .readTree(apiResult)
+              .get("aggregations")
+              .get(type + "CategoryNameAggregation")
+              .get("buckets")
+              .spliterator();
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+
+    return StreamSupport.stream(bucketSpliterator, false)
+        .filter(Objects::nonNull)
+        .map(bucket -> {
+          // Create a map to store "key", "doc_count", and "buckets.key" values
+          Map<String, String> bucketMap = new LinkedHashMap<>();
+          bucketMap.put("key", String.valueOf(bucket.get("key")));
+          bucketMap.put("count", String.valueOf(bucket.get("doc_count")));
+
+          JsonNode codeNode = bucket.get("code");
+          if (codeNode != null && codeNode.has("buckets")) {
+            JsonNode subBuckets = codeNode.get("buckets");
+            if (subBuckets.isArray() && subBuckets.size() > 0) {
+              bucketMap.put("code", String.valueOf(subBuckets.get(0).get("key")));
+            }
+          }
+
+          return bucketMap;
+        })
+        .collect(Collectors.toList());
   }
 }

@@ -39,9 +39,17 @@ var pageEvent = (function () {
       }
 
     });
+  }, _initAggregation = function () {
+    $.ajax({
+      type: "GET",
+      url: "commercial-property/aggregation-list",
+      success: function(data) {
+        resultEvent.generateAggregation(data);
+      }
+    });
   }
   return {
     init: _init,
-    initSimplePaginator: _initSimplePaginator
+    initAggregation: _initAggregation
   }
 })();
