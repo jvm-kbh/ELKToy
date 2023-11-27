@@ -33,7 +33,9 @@ spring:
       path: "/h2-console"
 logging:
   level:
+    root: info
     org:
+      springframework: debug
       hibernate:
         SQL: debug
 springdoc:

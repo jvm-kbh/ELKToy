@@ -1,4 +1,4 @@
-package me.kbh.elktoy.commercial.dto.conditon;
+package me.kbh.elktoy.commercial.dto.condition;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

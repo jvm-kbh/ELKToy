@@ -3,7 +3,7 @@ package me.kbh.elktoy.commercial.presentation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import me.kbh.elktoy.commercial.dto.conditon.CommercialPropertySearchCondition;
+import me.kbh.elktoy.commercial.dto.condition.CommercialPropertySearchCondition;
 import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyAggregationResponse;
 import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyResponse;
 import me.kbh.elktoy.commercial.service.CommercialPropertyService;
@@ -40,6 +40,7 @@ public class CommercialPropertyController {
   @GetMapping("/all")
   public ResponseEntity<CommercialPropertyResponse> findAllByCondition(
       @ModelAttribute CommercialPropertySearchCondition condition) {
+
     return ResponseEntity.ok(commercialPropertyService.findAllByCondition(condition));
   }
 }

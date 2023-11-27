@@ -20,7 +20,7 @@ import me.kbh.elktoy.commercial.code.CommercialPropertyFieldCode;
 import me.kbh.elktoy.commercial.component.RestComponent;
 import me.kbh.elktoy.commercial.dto.CommercialPropertyDto;
 import me.kbh.elktoy.commercial.dto.aggregation.CommercialPropertyAggregation;
-import me.kbh.elktoy.commercial.dto.conditon.CommercialPropertySearchCondition;
+import me.kbh.elktoy.commercial.dto.condition.CommercialPropertySearchCondition;
 import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyAggregationResponse;
 import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyResponse;
 import org.springframework.stereotype.Service;
