@@ -202,22 +202,23 @@ public class CommercialPropertyServiceImpl implements CommercialPropertyService 
 
     return StreamSupport.stream(bucketSpliterator, false)
         .filter(Objects::nonNull)
-        .map(bucket -> {
-          // Create a map to store "key", "doc_count", and "buckets.key" values
-          Map<String, String> bucketMap = new LinkedHashMap<>();
-          bucketMap.put("key", String.valueOf(bucket.get("key")));
-          bucketMap.put("count", String.valueOf(bucket.get("doc_count")));
+        .map(
+            bucket -> {
+              // Create a map to store "key", "doc_count", and "buckets.key" values
+              Map<String, String> bucketMap = new LinkedHashMap<>();
+              bucketMap.put("key", String.valueOf(bucket.get("key")));
+              bucketMap.put("count", String.valueOf(bucket.get("doc_count")));
 
-          JsonNode codeNode = bucket.get("code");
-          if (codeNode != null && codeNode.has("buckets")) {
-            JsonNode subBuckets = codeNode.get("buckets");
-            if (subBuckets.isArray() && subBuckets.size() > 0) {
-              bucketMap.put("code", String.valueOf(subBuckets.get(0).get("key")));
-            }
-          }
+              JsonNode codeNode = bucket.get("code");
+              if (codeNode != null && codeNode.has("buckets")) {
+                JsonNode subBuckets = codeNode.get("buckets");
+                if (subBuckets.isArray() && subBuckets.size() > 0) {
+                  bucketMap.put("code", String.valueOf(subBuckets.get(0).get("key")));
+                }
+              }
 
-          return bucketMap;
-        })
+              return bucketMap;
+            })
         .collect(Collectors.toList());
   }
 }
