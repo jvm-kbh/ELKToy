@@ -1,5 +1,7 @@
 var mapEvent = (function () {
   var markers = [];
+  var _makerLat = 0;
+  var _makerLot = 0;
   var _init = function(){
     markers = [];
     _getCurrentLocation();
@@ -32,11 +34,7 @@ var mapEvent = (function () {
       // 클릭한 위도, 경도 정보를 가져옵니다
       var latlng = mouseEvent.latLng;
 
-      var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-      message += '경도는 ' + latlng.getLng() + ' 입니다';
-
-      console.log(message);
-      //todo search
+      _setMakerPoint(latlng.getLat(), latlng.getLng());
 
       // 마커가 표시될 위치
       var markerPosition = new kakao.maps.LatLng(latlng.getLat(), latlng.getLng());
@@ -55,9 +53,19 @@ var mapEvent = (function () {
     });
   }, _errorCallback = function () {
     console.error("Error getting location:", error.message);
+  }, _setMakerPoint = function (lat,lot) {
+    _makerLat = lat;
+    _makerLot = lot;
+  }, _getMakerLat = function () {
+    return _makerLat;
+  }, _getMakerLot = function () {
+    return _makerLot;
   }
 
   return {
-    init : _init
+    init : _init,
+    setMakerPoint: _setMakerPoint,
+    getMakerLat: _getMakerLat,
+    getMakerLot: _getMakerLot
   }
 })();

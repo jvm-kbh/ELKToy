@@ -14,8 +14,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommercialPropertySearchCondition {
   String searchName;
-  String categoryType;
-  String categoryCode;
-  String lat;
-  String lon;
+  double lat;
+  double lot;
+  int from;
+  String selectedAggregationType;
+  String seledtedAggregationName;
 }

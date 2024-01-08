@@ -42,14 +42,29 @@ var pageEvent = (function () {
   }, _initAggregation = function () {
     $.ajax({
       type: "GET",
-      url: "commercial-property/aggregation-list",
+      url: "/commercial-property/aggregation-list",
       success: function(data) {
         resultEvent.generateAggregation(data);
+      }
+    });
+  }, _search = function () {
+    $.ajax({
+      type: "GET",
+      url: "/commercial-property/condition",
+      data: {
+        searchName : $("#search-input").val(),
+        lat: mapEvent.getMakerLat(),
+        lot: mapEvent.getMakerLot(),
+        from : 1
+      },
+      success: function(data) {
+
       }
     });
   }
   return {
     init: _init,
-    initAggregation: _initAggregation
+    initAggregation: _initAggregation,
+    search : _search
   }
 })();

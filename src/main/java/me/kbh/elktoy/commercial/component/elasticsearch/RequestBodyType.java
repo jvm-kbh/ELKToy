@@ -8,7 +8,8 @@ import lombok.Getter;
 public enum RequestBodyType {
   FROM("from"),
   SIZE("size"),
-  query("query");
+  QUERY("query"),
+  AGGREGATION("aggs");
 
   private String name;
 }

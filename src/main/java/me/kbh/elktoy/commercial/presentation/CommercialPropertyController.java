@@ -37,7 +37,7 @@ public class CommercialPropertyController {
     return ResponseEntity.ok(commercialPropertyService.getAggregationList());
   }
 
-  @GetMapping("/all")
+  @GetMapping("/condition")
   public ResponseEntity<CommercialPropertyResponse> findAllByCondition(
       @ModelAttribute CommercialPropertySearchCondition condition) {
 

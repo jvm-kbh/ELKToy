@@ -18,6 +18,7 @@ import me.kbh.elktoy.commercial.code.CommercialPropertyAPICode;
 import me.kbh.elktoy.commercial.code.CommercialPropertyColumCode;
 import me.kbh.elktoy.commercial.code.CommercialPropertyFieldCode;
 import me.kbh.elktoy.commercial.component.RestComponent;
+import me.kbh.elktoy.commercial.component.elasticsearch.ElasticsearchRequestBuilder;
 import me.kbh.elktoy.commercial.dto.CommercialPropertyDto;
 import me.kbh.elktoy.commercial.dto.aggregation.CommercialPropertyAggregation;
 import me.kbh.elktoy.commercial.dto.condition.CommercialPropertySearchCondition;
@@ -183,6 +184,14 @@ public class CommercialPropertyServiceImpl implements CommercialPropertyService 
   @Override
   public CommercialPropertyResponse findAllByCondition(
       CommercialPropertySearchCondition condition) {
+    String requestBaseBody = ElasticsearchRequestBuilder.builder()
+        .from(condition.getFrom())
+        .size(10)
+        .source(CommercialPropertyColumCode.ALL.getColumString())
+        .build()
+        .buildJsonBody();
+
+    String completeRequestBody =  "";
     return null;
   }
 
