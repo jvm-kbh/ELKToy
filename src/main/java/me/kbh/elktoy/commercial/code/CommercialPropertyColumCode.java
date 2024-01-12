@@ -6,7 +6,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum CommercialPropertyColumCode {
-  ALL("""
+  ALL(
+      """
       "commercialPropertyId",
       "name",
       "branchName",

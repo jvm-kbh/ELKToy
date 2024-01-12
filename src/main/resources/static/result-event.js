@@ -47,9 +47,63 @@ var resultEvent = (function () {
     });
   }, _clearPage = function () {
     $("#data-component").empty();
+  }, _generateAggregation = function (data) {
+    function findDataByAggregationTitle(aggregationTitle) {
+      var foundData = null;
+      $.each(data.commercialPropertyAggregationList, function (index, data) {
+        if (data.aggregationTitle === aggregationTitle) {
+          foundData = data;
+          return false; // 반복 중단
+        }
+      });
+      return foundData;
+    }
+
+    var majorData = findDataByAggregationTitle("major");
+    var middleData = findDataByAggregationTitle("middle");
+    var subData = findDataByAggregationTitle("sub");
+
+    function generateRadioHtml(aggregationTitle, aggregationDataMap) {
+      var radioHtml = '';
+      var index = 0;
+      $.each(aggregationDataMap, function (index, data) {
+        var radioTemplate = $('#radio-template-for-aggregation').html();
+        radioTemplate = radioTemplate.split("{%category%}").join(
+            aggregationTitle);
+        radioTemplate = radioTemplate.split("{%index%}").join(index++);
+        radioTemplate = radioTemplate.split("{%aggregationName%}").join(
+            data.key.replace('"', '').replace('"', ''));
+        radioTemplate = radioTemplate.split("{%aggregationCount%}").join(
+            data.count);
+        radioTemplate = radioTemplate.split("{%aggregationCode%}").join(
+            data.code.replace('"', '').replace('"', ''));
+        radioHtml += radioTemplate;
+      });
+      return radioHtml;
+    }
+
+    var majorHtml = generateRadioHtml(majorData.aggregationTitle,
+        majorData.aggregationDataMap);
+    var middleHtml = generateRadioHtml(middleData.aggregationTitle,
+        middleData.aggregationDataMap);
+    var subHtml = generateRadioHtml(subData.aggregationTitle,
+        subData.aggregationDataMap);
+
+    $(".major-check-group").append(majorHtml);
+    $(".middle-check-group").append(middleHtml);
+    $(".sub-check-group").append(subHtml);
+
+    $(".condition-wrapper input[type=radio]").on("change", function () {
+      var categoryType = $(this).closest('div').find(
+          'input[name=category-type]').val();
+      var categoryCode = $(this).closest('div').find(
+          'input[name=category-code]').val();
+
+    });
   }
   return {
     clearPage: _clearPage,
-    generate: _generate
+    generate: _generate,
+    generateAggregation: _generateAggregation
   }
 })();
