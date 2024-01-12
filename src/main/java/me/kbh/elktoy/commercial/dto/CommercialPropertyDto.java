@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import me.kbh.elktoy.commercial.dto.response.search.HitSourceDto;
 import me.kbh.elktoy.commercial.model.CommercialProperty;
 
 @Getter
@@ -54,91 +55,177 @@ public class CommercialPropertyDto {
   String longitude; // 경도
   String latitude; // 위도
 
-  @Builder(builderClassName = "ModelMappingBuilder", builderMethodName = "builderByModel", buildMethodName = "modelBuild")
-  public CommercialPropertyDto(CommercialProperty toDocument) {
-    this.commercialPropertyId = toDocument.getCommercialPropertyId();
-    this.name = toDocument.getName();
-    this.branchName = toDocument.getBranchName();
-    this.majorCategoryCode = toDocument.getMajorCategoryCode();
-    this.majorCategoryName = toDocument.getMajorCategoryName();
-    this.middleCategoryCode = toDocument.getMiddleCategoryCode();
-    this.middleCategoryName = toDocument.getMiddleCategoryName();
-    this.subCategoryCode = toDocument.getSubCategoryCode();
-    this.subCategoryName = toDocument.getSubCategoryName();
-    this.industryCode = toDocument.getIndustryCode();
-    this.industryName = toDocument.getIndustryName();
-    this.cityCode = toDocument.getCityCode();
-    this.cityName = toDocument.getCityName();
-    this.districtCode = toDocument.getDistrictCode();
-    this.districtName = toDocument.getDistrictName();
-    this.administrativeDistrictCode = toDocument.getAdministrativeDistrictCode();
-    this.administrativeDistrictName = toDocument.getAdministrativeDistrictName();
-    this.legalDistrictCode = toDocument.getLegalDistrictCode();
-    this.legalDistrictName = toDocument.getLegalDistrictName();
-    this.parcelCode = toDocument.getParcelCode();
-    this.landCategoryCode = toDocument.getLandCategoryCode();
-    this.landCategoryName = toDocument.getLandCategoryName();
-    this.parcelMainNumber = toDocument.getParcelMainNumber();
-    this.parcelSubNumber = toDocument.getParcelSubNumber();
-    this.parcelAddress = toDocument.getParcelAddress();
-    this.roadCode = toDocument.getRoadCode();
-    this.roadName = toDocument.getRoadName();
-    this.buildingMainNumber = toDocument.getBuildingMainNumber();
-    this.buildingSubNumber = toDocument.getBuildingSubNumber();
-    this.buildingManagementNumber = toDocument.getBuildingManagementNumber();
-    this.buildingName = toDocument.getBuildingName();
-    this.roadAddress = toDocument.getRoadAddress();
-    this.oldZipCode = toDocument.getOldZipCode();
-    this.newZipCode = toDocument.getNewZipCode();
-    this.dongInfo = toDocument.getDongInfo();
-    this.floorInfo = toDocument.getFloorInfo();
-    this.unitInfo = toDocument.getUnitInfo();
-    this.longitude = toDocument.getLongitude();
-    this.latitude = toDocument.getLatitude();
-  }
-
-  @Builder(builderClassName = "dataMappingBuilder", builderMethodName = "builderByData", buildMethodName = "dataBuild")
+  @Builder(
+      builderClassName = "DataMappingBuilder",
+      builderMethodName = "builderByData",
+      buildMethodName = "dataBuild")
   public CommercialPropertyDto(LinkedHashMap<String, Object> hitData) {
     String defaultValue = "--"; // 기본 값
 
-    this.commercialPropertyId = (hitData.get("commercialPropertyId") != null) ? (String) hitData.get("commercialPropertyId") : defaultValue;
+    this.commercialPropertyId =
+        (hitData.get("commercialPropertyId") != null)
+            ? (String) hitData.get("commercialPropertyId")
+            : defaultValue;
     this.name = (hitData.get("name") != null) ? (String) hitData.get("name") : defaultValue;
-    this.branchName = (hitData.get("branchName") != null) ? (String) hitData.get("branchName") : defaultValue;
-    this.majorCategoryCode = (hitData.get("majorCategoryCode") != null) ? (String) hitData.get("majorCategoryCode") : defaultValue;
-    this.majorCategoryName = (hitData.get("majorCategoryName") != null) ? (String) hitData.get("majorCategoryName") : defaultValue;
-    this.middleCategoryCode = (hitData.get("middleCategoryCode") != null) ? (String) hitData.get("middleCategoryCode") : defaultValue;
-    this.middleCategoryName = (hitData.get("middleCategoryName") != null) ? (String) hitData.get("middleCategoryName") : defaultValue;
-    this.subCategoryCode = (hitData.get("subCategoryCode") != null) ? (String) hitData.get("subCategoryCode") : defaultValue;
-    this.subCategoryName = (hitData.get("subCategoryName") != null) ? (String) hitData.get("subCategoryName") : defaultValue;
-    this.industryCode = (hitData.get("industryCode") != null) ? (String) hitData.get("industryCode") : defaultValue;
-    this.industryName = (hitData.get("industryName") != null) ? (String) hitData.get("industryName") : defaultValue;
-    this.cityCode = (hitData.get("cityCode") != null) ? (String) hitData.get("cityCode") : defaultValue;
-    this.cityName = (hitData.get("cityName") != null) ? (String) hitData.get("cityName") : defaultValue;
-    this.districtCode = (hitData.get("districtCode") != null) ? (String) hitData.get("districtCode") : defaultValue;
-    this.districtName = (hitData.get("districtName") != null) ? (String) hitData.get("districtName") : defaultValue;
-    this.administrativeDistrictCode = (hitData.get("administrativeDistrictCode") != null) ? (String) hitData.get("administrativeDistrictCode") : defaultValue;
-    this.administrativeDistrictName = (hitData.get("administrativeDistrictName") != null) ? (String) hitData.get("administrativeDistrictName") : defaultValue;
-    this.legalDistrictCode = (hitData.get("legalDistrictCode") != null) ? (String) hitData.get("legalDistrictCode") : defaultValue;
-    this.legalDistrictName = (hitData.get("legalDistrictName") != null) ? (String) hitData.get("legalDistrictName") : defaultValue;
-    this.parcelCode = (hitData.get("parcelCode") != null) ? (String) hitData.get("parcelCode") : defaultValue;
-    this.landCategoryCode = (hitData.get("landCategoryCode") != null) ? (String) hitData.get("landCategoryCode") : defaultValue;
-    this.landCategoryName = (hitData.get("landCategoryName") != null) ? (String) hitData.get("landCategoryName") : defaultValue;
-    this.parcelMainNumber = (hitData.get("parcelMainNumber") != null) ? (String) hitData.get("parcelMainNumber") : defaultValue;
-    this.parcelSubNumber = (hitData.get("parcelSubNumber") != null) ? (String) hitData.get("parcelSubNumber") : defaultValue;
-    this.parcelAddress = (hitData.get("parcelAddress") != null) ? (String) hitData.get("parcelAddress") : defaultValue;
-    this.roadCode = (hitData.get("roadCode") != null) ? (String) hitData.get("roadCode") : defaultValue;
-    this.roadName = (hitData.get("roadName") != null) ? (String) hitData.get("roadName") : defaultValue;
-    this.buildingMainNumber = (hitData.get("buildingMainNumber") != null) ? (String) hitData.get("buildingMainNumber") : defaultValue;
-    this.buildingSubNumber = (hitData.get("buildingSubNumber") != null) ? (String) hitData.get("buildingSubNumber") : defaultValue;
-    this.buildingManagementNumber = (hitData.get("buildingManagementNumber") != null) ? (String) hitData.get("buildingManagementNumber") : defaultValue;
-    this.buildingName = (hitData.get("buildingName") != null) ? (String) hitData.get("buildingName") : defaultValue;
-    this.roadAddress = (hitData.get("roadAddress") != null) ? (String) hitData.get("roadAddress") : defaultValue;
-    this.oldZipCode = (hitData.get("oldZipCode") != null) ? (String) hitData.get("oldZipCode") : defaultValue;
-    this.newZipCode = (hitData.get("newZipCode") != null) ? (String) hitData.get("newZipCode") : defaultValue;
-    this.dongInfo = (hitData.get("dongInfo") != null) ? (String) hitData.get("dongInfo") : defaultValue;
-    this.floorInfo = (hitData.get("floorInfo") != null) ? (String) hitData.get("floorInfo") : defaultValue;
-    this.unitInfo = (hitData.get("unitInfo") != null) ? (String) hitData.get("unitInfo") : defaultValue;
-    this.longitude = (hitData.get("longitude") != null) ? (String) hitData.get("longitude") : defaultValue;
-    this.latitude = (hitData.get("latitude") != null) ? (String) hitData.get("latitude") : defaultValue;
+    this.branchName =
+        (hitData.get("branchName") != null) ? (String) hitData.get("branchName") : defaultValue;
+    this.majorCategoryCode =
+        (hitData.get("majorCategoryCode") != null)
+            ? (String) hitData.get("majorCategoryCode")
+            : defaultValue;
+    this.majorCategoryName =
+        (hitData.get("majorCategoryName") != null)
+            ? (String) hitData.get("majorCategoryName")
+            : defaultValue;
+    this.middleCategoryCode =
+        (hitData.get("middleCategoryCode") != null)
+            ? (String) hitData.get("middleCategoryCode")
+            : defaultValue;
+    this.middleCategoryName =
+        (hitData.get("middleCategoryName") != null)
+            ? (String) hitData.get("middleCategoryName")
+            : defaultValue;
+    this.subCategoryCode =
+        (hitData.get("subCategoryCode") != null)
+            ? (String) hitData.get("subCategoryCode")
+            : defaultValue;
+    this.subCategoryName =
+        (hitData.get("subCategoryName") != null)
+            ? (String) hitData.get("subCategoryName")
+            : defaultValue;
+    this.industryCode =
+        (hitData.get("industryCode") != null) ? (String) hitData.get("industryCode") : defaultValue;
+    this.industryName =
+        (hitData.get("industryName") != null) ? (String) hitData.get("industryName") : defaultValue;
+    this.cityCode =
+        (hitData.get("cityCode") != null) ? (String) hitData.get("cityCode") : defaultValue;
+    this.cityName =
+        (hitData.get("cityName") != null) ? (String) hitData.get("cityName") : defaultValue;
+    this.districtCode =
+        (hitData.get("districtCode") != null) ? (String) hitData.get("districtCode") : defaultValue;
+    this.districtName =
+        (hitData.get("districtName") != null) ? (String) hitData.get("districtName") : defaultValue;
+    this.administrativeDistrictCode =
+        (hitData.get("administrativeDistrictCode") != null)
+            ? (String) hitData.get("administrativeDistrictCode")
+            : defaultValue;
+    this.administrativeDistrictName =
+        (hitData.get("administrativeDistrictName") != null)
+            ? (String) hitData.get("administrativeDistrictName")
+            : defaultValue;
+    this.legalDistrictCode =
+        (hitData.get("legalDistrictCode") != null)
+            ? (String) hitData.get("legalDistrictCode")
+            : defaultValue;
+    this.legalDistrictName =
+        (hitData.get("legalDistrictName") != null)
+            ? (String) hitData.get("legalDistrictName")
+            : defaultValue;
+    this.parcelCode =
+        (hitData.get("parcelCode") != null) ? (String) hitData.get("parcelCode") : defaultValue;
+    this.landCategoryCode =
+        (hitData.get("landCategoryCode") != null)
+            ? (String) hitData.get("landCategoryCode")
+            : defaultValue;
+    this.landCategoryName =
+        (hitData.get("landCategoryName") != null)
+            ? (String) hitData.get("landCategoryName")
+            : defaultValue;
+    this.parcelMainNumber =
+        (hitData.get("parcelMainNumber") != null)
+            ? (String) hitData.get("parcelMainNumber")
+            : defaultValue;
+    this.parcelSubNumber =
+        (hitData.get("parcelSubNumber") != null)
+            ? (String) hitData.get("parcelSubNumber")
+            : defaultValue;
+    this.parcelAddress =
+        (hitData.get("parcelAddress") != null)
+            ? (String) hitData.get("parcelAddress")
+            : defaultValue;
+    this.roadCode =
+        (hitData.get("roadCode") != null) ? (String) hitData.get("roadCode") : defaultValue;
+    this.roadName =
+        (hitData.get("roadName") != null) ? (String) hitData.get("roadName") : defaultValue;
+    this.buildingMainNumber =
+        (hitData.get("buildingMainNumber") != null)
+            ? (String) hitData.get("buildingMainNumber")
+            : defaultValue;
+    this.buildingSubNumber =
+        (hitData.get("buildingSubNumber") != null)
+            ? (String) hitData.get("buildingSubNumber")
+            : defaultValue;
+    this.buildingManagementNumber =
+        (hitData.get("buildingManagementNumber") != null)
+            ? (String) hitData.get("buildingManagementNumber")
+            : defaultValue;
+    this.buildingName =
+        (hitData.get("buildingName") != null) ? (String) hitData.get("buildingName") : defaultValue;
+    this.roadAddress =
+        (hitData.get("roadAddress") != null) ? (String) hitData.get("roadAddress") : defaultValue;
+    this.oldZipCode =
+        (hitData.get("oldZipCode") != null) ? (String) hitData.get("oldZipCode") : defaultValue;
+    this.newZipCode =
+        (hitData.get("newZipCode") != null) ? (String) hitData.get("newZipCode") : defaultValue;
+    this.dongInfo =
+        (hitData.get("dongInfo") != null) ? (String) hitData.get("dongInfo") : defaultValue;
+    this.floorInfo =
+        (hitData.get("floorInfo") != null) ? (String) hitData.get("floorInfo") : defaultValue;
+    this.unitInfo =
+        (hitData.get("unitInfo") != null) ? (String) hitData.get("unitInfo") : defaultValue;
+    this.longitude =
+        (hitData.get("longitude") != null) ? (String) hitData.get("longitude") : defaultValue;
+    this.latitude =
+        (hitData.get("latitude") != null) ? (String) hitData.get("latitude") : defaultValue;
+  }
+  @Builder(
+      builderClassName = "documentMappingBuilder",
+      builderMethodName = "builderBydocumentData",
+      buildMethodName = "dataBuild")
+  public CommercialPropertyDto(HitSourceDto hitSourceDto) {
+    String defaultValue = "--"; // 기본 값
+
+    this.commercialPropertyId = getOrDefault(hitSourceDto.getCommercialPropertyId(), defaultValue);
+    this.name = getOrDefault(hitSourceDto.getName(), defaultValue);
+    this.branchName = getOrDefault(hitSourceDto.getBranchName(), defaultValue);
+    this.majorCategoryCode = getOrDefault(hitSourceDto.getMajorCategoryCode(), defaultValue);
+    this.majorCategoryName = getOrDefault(hitSourceDto.getMajorCategoryName(), defaultValue);
+    this.middleCategoryCode = getOrDefault(hitSourceDto.getMiddleCategoryCode(), defaultValue);
+    this.middleCategoryName = getOrDefault(hitSourceDto.getMiddleCategoryName(), defaultValue);
+    this.subCategoryCode = getOrDefault(hitSourceDto.getSubCategoryCode(), defaultValue);
+    this.subCategoryName = getOrDefault(hitSourceDto.getSubCategoryName(), defaultValue);
+    this.industryCode = getOrDefault(hitSourceDto.getIndustryCode(), defaultValue);
+    this.industryName = getOrDefault(hitSourceDto.getIndustryName(), defaultValue);
+    this.cityCode = getOrDefault(hitSourceDto.getCityCode(), defaultValue);
+    this.cityName = getOrDefault(hitSourceDto.getCityName(), defaultValue);
+    this.districtCode = getOrDefault(hitSourceDto.getDistrictCode(), defaultValue);
+    this.districtName = getOrDefault(hitSourceDto.getDistrictName(), defaultValue);
+    this.administrativeDistrictCode = getOrDefault(hitSourceDto.getAdministrativeDistrictCode(), defaultValue);
+    this.administrativeDistrictName = getOrDefault(hitSourceDto.getAdministrativeDistrictName(), defaultValue);
+    this.legalDistrictCode = getOrDefault(hitSourceDto.getLegalDistrictCode(), defaultValue);
+    this.legalDistrictName = getOrDefault(hitSourceDto.getLegalDistrictName(), defaultValue);
+    this.parcelCode = getOrDefault(hitSourceDto.getParcelCode(), defaultValue);
+    this.landCategoryCode = getOrDefault(hitSourceDto.getLandCategoryCode(), defaultValue);
+    this.landCategoryName = getOrDefault(hitSourceDto.getLandCategoryName(), defaultValue);
+    this.parcelMainNumber = getOrDefault(hitSourceDto.getParcelMainNumber(), defaultValue);
+    this.parcelSubNumber = getOrDefault(hitSourceDto.getParcelSubNumber(), defaultValue);
+    this.parcelAddress = getOrDefault(hitSourceDto.getParcelAddress(), defaultValue);
+    this.roadCode = getOrDefault(hitSourceDto.getRoadCode(), defaultValue);
+    this.roadName = getOrDefault(hitSourceDto.getRoadName(), defaultValue);
+    this.buildingMainNumber = getOrDefault(hitSourceDto.getBuildingMainNumber(), defaultValue);
+    this.buildingSubNumber = getOrDefault(hitSourceDto.getBuildingSubNumber(), defaultValue);
+    this.buildingManagementNumber = getOrDefault(hitSourceDto.getBuildingManagementNumber(), defaultValue);
+    this.buildingName = getOrDefault(hitSourceDto.getBuildingName(), defaultValue);
+    this.roadAddress = getOrDefault(hitSourceDto.getRoadAddress(), defaultValue);
+    this.oldZipCode = getOrDefault(hitSourceDto.getOldZipCode(), defaultValue);
+    this.newZipCode = getOrDefault(hitSourceDto.getNewZipCode(), defaultValue);
+    this.dongInfo = getOrDefault(hitSourceDto.getDongInfo(), defaultValue);
+    this.floorInfo = getOrDefault(hitSourceDto.getFloorInfo(), defaultValue);
+    this.unitInfo = getOrDefault(hitSourceDto.getUnitInfo(), defaultValue);
+    this.longitude = getOrDefault(hitSourceDto.getLongitude(), defaultValue);
+    this.latitude = getOrDefault(hitSourceDto.getLatitude(), defaultValue);
+  }
+  private String getOrDefault(String value, String defaultValue) {
+    return value != null ? value : defaultValue;
   }
 }

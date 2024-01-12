@@ -1,4 +1,4 @@
-package me.kbh.elktoy.commercial.dto.resposne;
+package me.kbh.elktoy.commercial.dto.response;
 
 import java.util.List;
 import lombok.AccessLevel;
@@ -13,9 +13,12 @@ import me.kbh.elktoy.commercial.dto.CommercialPropertyDto;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommercialPropertyResponse {
   List<CommercialPropertyDto> commercialPropertyDtoList;
+  int count;
 
   @Builder
-  public CommercialPropertyResponse(List<CommercialPropertyDto> commercialPropertyDtoList) {
+  public CommercialPropertyResponse(
+      List<CommercialPropertyDto> commercialPropertyDtoList, int count) {
     this.commercialPropertyDtoList = commercialPropertyDtoList;
+    this.count = count;
   }
 }

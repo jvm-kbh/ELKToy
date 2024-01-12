@@ -1,4 +1,4 @@
-package me.kbh.elktoy.commercial.dto.resposne;
+package me.kbh.elktoy.commercial.dto.response.aggregation;
 
 import java.util.List;
 import lombok.AccessLevel;

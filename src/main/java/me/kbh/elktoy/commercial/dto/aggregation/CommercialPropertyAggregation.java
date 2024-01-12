@@ -16,7 +16,8 @@ public class CommercialPropertyAggregation {
   List<Map<String, String>> aggregationDataMap;
 
   @Builder
-  public CommercialPropertyAggregation(String aggregationTitle, List<Map<String, String>>  aggregationDataMap) {
+  public CommercialPropertyAggregation(
+      String aggregationTitle, List<Map<String, String>> aggregationDataMap) {
     this.aggregationTitle = aggregationTitle;
     this.aggregationDataMap = aggregationDataMap;
   }
