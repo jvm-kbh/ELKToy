@@ -19,12 +19,21 @@ import me.kbh.elktoy.commercial.code.CommercialPropertyColumCode;
 import me.kbh.elktoy.commercial.code.CommercialPropertyFieldCode;
 import me.kbh.elktoy.commercial.component.RestComponent;
 import me.kbh.elktoy.commercial.component.elasticsearch.ElasticsearchRequestBuilder;
+import me.kbh.elktoy.commercial.component.elasticsearch.query.QueryBuilder;
+import me.kbh.elktoy.commercial.component.elasticsearch.query.QueryType;
+import me.kbh.elktoy.commercial.component.elasticsearch.query.bool.BoolQuery.BoolQueryBuilder;
 import me.kbh.elktoy.commercial.dto.CommercialPropertyDto;
 import me.kbh.elktoy.commercial.dto.aggregation.CommercialPropertyAggregation;
 import me.kbh.elktoy.commercial.dto.condition.CommercialPropertySearchCondition;
-import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyAggregationResponse;
-import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyResponse;
+import me.kbh.elktoy.commercial.dto.response.CommercialPropertyResponse;
+import me.kbh.elktoy.commercial.dto.response.aggregation.CommercialPropertyAggregationResponse;
+import me.kbh.elktoy.commercial.dto.response.count.ElasticsearchCountResponse;
+import me.kbh.elktoy.commercial.dto.response.search.ElasticsearchSearchResponse;
+import me.kbh.elktoy.commercial.dto.response.search.HitSourceDto;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 @Service
 @RequiredArgsConstructor
@@ -86,8 +95,7 @@ public class CommercialPropertyServiceImpl implements CommercialPropertyService 
   @Override
   public long getDataTotalCount() {
     String apiResult =
-        restComponent.sendGetRequest(
-            CommercialPropertyAPICode.TOTAL_COUNT.getApiUrl(), String.class);
+        restComponent.sendGetRequest(CommercialPropertyAPICode.COUNT.getApiUrl(), String.class);
 
     try {
       JsonNode countNode = objectMapper.readTree(apiResult).get("count");
@@ -184,15 +192,82 @@ public class CommercialPropertyServiceImpl implements CommercialPropertyService 
   @Override
   public CommercialPropertyResponse findAllByCondition(
       CommercialPropertySearchCondition condition) {
-    String requestBaseBody = ElasticsearchRequestBuilder.builder()
+
+    String elasticsearchUrl = "http://localhost:9200";
+    String query = buildQueryFromCondition(condition);
+
+    String requestBaseBody = getRequestBaseBody(condition, query);
+    ResponseEntity<ElasticsearchSearchResponse> searchApiResponse =
+        getSearchApiRespose(elasticsearchUrl, requestBaseBody);
+    List<HitSourceDto> documentData = searchApiResponse.getBody().getDocumentData();
+
+    ResponseEntity<ElasticsearchCountResponse> countApiResponse =
+        getCountApiResponse(elasticsearchUrl, query);
+    int countByCondition = countApiResponse.getBody().getCount();
+
+    return getCommercialPropertyResponse(documentData, countByCondition);
+  }
+
+  private static CommercialPropertyResponse getCommercialPropertyResponse(
+      List<HitSourceDto> documentData, int countByCondition) {
+    List<CommercialPropertyDto> commercialPropertyDtoList =
+        documentData.stream().map(CommercialPropertyDto::new).collect(Collectors.toList());
+
+    return CommercialPropertyResponse.builder()
+        .commercialPropertyDtoList(commercialPropertyDtoList)
+        .count(countByCondition)
+        .build();
+  }
+
+  private static ResponseEntity<ElasticsearchCountResponse> getCountApiResponse(
+      String elasticsearchUrl, String query) {
+    RestClient restClient =
+        RestClient.builder()
+            .baseUrl(elasticsearchUrl + CommercialPropertyAPICode.COUNT.getApiUrl())
+            .build();
+
+    String wrapJsonRootForQuery = "{%s}".formatted(query);
+
+    return restClient
+        .post()
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(wrapJsonRootForQuery)
+        .retrieve()
+        .toEntity(ElasticsearchCountResponse.class);
+  }
+
+  private static ResponseEntity<ElasticsearchSearchResponse> getSearchApiRespose(
+      String elasticsearchUrl, String requestBaseBody) {
+
+    RestClient restClient =
+        RestClient.builder()
+            .baseUrl(elasticsearchUrl + CommercialPropertyAPICode.SEARCH.getApiUrl())
+            .build();
+    return restClient
+        .post()
+        .contentType(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .body(requestBaseBody)
+        .retrieve()
+        .toEntity(ElasticsearchSearchResponse.class);
+  }
+
+  private static String getRequestBaseBody(
+      CommercialPropertySearchCondition condition, String query) {
+    return ElasticsearchRequestBuilder.builder()
         .from(condition.getFrom())
         .size(10)
         .source(CommercialPropertyColumCode.ALL.getColumString())
+        .query(query)
         .build()
         .buildJsonBody();
+  }
 
-    String completeRequestBody =  "";
-    return null;
+  private static String buildQueryFromCondition(CommercialPropertySearchCondition condition) {
+    BoolQueryBuilder boolQueryBuilder = QueryBuilder.chooseType(QueryType.BOOL);
+    String query = boolQueryBuilder.condition(condition).build().getBoolQuery();
+    return query;
   }
 
   private List<Map<String, String>> processCategoryAggregation(String apiResult, String type) {
