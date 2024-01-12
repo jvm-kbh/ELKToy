@@ -22,26 +22,22 @@ public class ElasticsearchRequestBuilder {
   private int size;
   private String source;
 
+  private String query;
 
   @Builder
-  public ElasticsearchRequestBuilder(int from, int size, String source) {
+  public ElasticsearchRequestBuilder(int from, int size, String source, String query) {
     this.from = from;
-    if (size == 0){
+    if (size == 0) {
       this.size = 10;
     } else {
       this.size = size;
     }
     this.source = source;
+    this.query = query;
   }
 
   public String buildJsonBody() {
-    jsonBody =
-        jsonBody.formatted(
-            (from - 1) * size,
-            size,
-            source,
-            "query"
-        );
+    jsonBody = jsonBody.formatted((from - 1) * size, size, source, query);
 
     return root.formatted(jsonBody);
   }

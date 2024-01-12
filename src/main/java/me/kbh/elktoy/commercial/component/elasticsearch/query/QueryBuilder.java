@@ -1,25 +1,20 @@
 package me.kbh.elktoy.commercial.component.elasticsearch.query;
 
-import lombok.NoArgsConstructor;
-import me.kbh.elktoy.commercial.component.elasticsearch.query.bool.BoolQueryBuilder;
+import me.kbh.elktoy.commercial.component.elasticsearch.query.bool.BoolQuery;
+import me.kbh.elktoy.commercial.component.elasticsearch.query.bool.BoolQuery.BoolQueryBuilder;
 
-@NoArgsConstructor
-public class QueryBuilder {
+public abstract class QueryBuilder {
   private QueryType type;
   public String baseQuery = """
     "query" : {%s}
   """;
 
-  public QueryBuilder type(QueryType type){
-    this.type = type;
-    return this;
-  }
-  /*public QueryBuilder build(){
-    QueryBuilder builder = new BoolQueryBuilder();
+  public static BoolQueryBuilder chooseType(QueryType type) {
     switch (type) {
-      case BOOL -> builder = new BoolQueryBuilder();
-      default -> throw new IllegalArgumentException("unsupported Query: " + type);
+      case BOOL:
+        return BoolQuery.builder();
+      default:
+        throw new IllegalArgumentException("Unsupported query type");
     }
-    return builder;
-  }*/
+  }
 }
