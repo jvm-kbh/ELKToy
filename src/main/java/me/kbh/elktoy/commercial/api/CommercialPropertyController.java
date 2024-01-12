@@ -1,11 +1,11 @@
-package me.kbh.elktoy.commercial.presentation;
+package me.kbh.elktoy.commercial.api;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import me.kbh.elktoy.commercial.dto.condition.CommercialPropertySearchCondition;
-import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyAggregationResponse;
-import me.kbh.elktoy.commercial.dto.resposne.CommercialPropertyResponse;
+import me.kbh.elktoy.commercial.dto.response.CommercialPropertyResponse;
+import me.kbh.elktoy.commercial.dto.response.aggregation.CommercialPropertyAggregationResponse;
 import me.kbh.elktoy.commercial.service.CommercialPropertyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

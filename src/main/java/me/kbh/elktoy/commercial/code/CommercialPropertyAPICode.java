@@ -7,7 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CommercialPropertyAPICode {
   SEARCH("/commercial_property/_search"),
-  TOTAL_COUNT("/commercial_property/_count")
-  ;
+  COUNT("/commercial_property/_count");
   private String apiUrl;
 }
